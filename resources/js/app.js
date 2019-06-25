@@ -12,6 +12,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/index.js';
 import VueRouter from 'vue-router';
+import {store} from './store/store.js';
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    store,
     router,
     render: h => h(App)
 });
