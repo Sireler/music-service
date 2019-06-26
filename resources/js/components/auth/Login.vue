@@ -6,7 +6,7 @@
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                            <form @submit.prevent class="p-4 rounded m-4">
+                            <form @submit.prevent="login" class="p-4 rounded m-4">
                                 <h3 class="text-center">Log In</h3>
                                 <div class="form-group">
                                     <label for="li-email">Email</label>
@@ -19,8 +19,7 @@
                                            v-model="loginFields.password">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-secondary"
-                                            @click="login">Log In</button>
+                                    <button type="submit" class="btn btn-secondary">Log In</button>
                                 </div>
                             </form>
                         </div>
@@ -28,7 +27,7 @@
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                            <form @submit.prevent class="p-4 rounded m-4">
+                            <form @submit.prevent="register" class="p-4 rounded m-4">
                                 <h3 class="text-center">Sign Up</h3>
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -51,7 +50,7 @@
                                            v-model="registerFields.password_confirmation">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-secondary">Sign Up</button>
+                                    <button type="submit" class="btn btn-secondary">Sign Up</button>
                                 </div>
                             </form>
                         </div>
@@ -90,6 +89,17 @@
                     });
             },
 
+            register() {
+                this.$store.dispatch('register', {
+                    name: this.registerFields.name,
+                    email: this.registerFields.email,
+                    password: this.registerFields.password,
+                    password_confirmation: this.registerFields.password_confirmation
+                })
+                    .then(response => {
+                        this.$router.push({ name: 'login' });
+                    });
+            }
         }
     }
 </script>
