@@ -15,7 +15,12 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        <li v-if="!loggedIn" class="nav-item">
+                            <router-link :to="{ name: 'login' }">Login</router-link>
+                        </li>
+                        <li v-if="loggedIn" class="nav-item">
+                            <router-link :to="{ name: 'logout' }">Logout</router-link>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -29,7 +34,12 @@
 
 <script>
     export default {
-        name: "App"
+        name: "App",
+        computed: {
+            loggedIn() {
+                return this.$store.getters.loggedIn;
+            }
+        }
     }
 </script>
 

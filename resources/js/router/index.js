@@ -6,6 +6,7 @@ import Home from '../components/Home';
 
 // Auth
 import Login from '../components/auth/Login';
+import Logout from '../components/auth/Logout';
 
 Vue.use(Router);
 
@@ -26,6 +27,11 @@ const router = new Router({
             name: 'login',
             path: '/login',
             component: Login
+        },
+        {
+            name: 'logout',
+            path: '/logout',
+            component: Logout
         }
     ]
 });
