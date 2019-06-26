@@ -1,5 +1,6 @@
 <template>
     <div class="application">
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-md bg-light shadow-sm">
             <div class="container">
                 <router-link class="navbar-brand" to="/">Laravel</router-link>
@@ -25,9 +26,12 @@
                 </div>
             </div>
         </nav>
+        <!-- /Navbar -->
+        <!-- Router view -->
         <div class="current-view">
             <router-view></router-view>
         </div>
+        <!-- /Router view -->
     </div>
 
 </template>

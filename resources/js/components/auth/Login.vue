@@ -33,22 +33,22 @@
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input id="name" name="name" class="form-control" type="text"
-                                           v-model="signupFields.name">
+                                           v-model="registerFields.name">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input id="email" name="email" class="form-control" type="email"
-                                           v-model="signupFields.email">
+                                           v-model="registerFields.email">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input id="password" name="password" class="form-control" type="password"
-                                           v-model="signupFields.password">
+                                           v-model="registerFields.password">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-confirm">Confirm Password</label>
                                     <input id="password-confirm" name="password_confirmation" class="form-control" type="password"
-                                           v-model="signupFields.password_confirmation">
+                                           v-model="registerFields.password_confirmation">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-secondary">Sign Up</button>
@@ -71,7 +71,7 @@
                     email: '',
                     password: ''
                 },
-                signupFields: {
+                registerFields: {
                     name: '',
                     email: '',
                     password: '',
@@ -88,7 +88,8 @@
                     .then(response => {
                         this.$router.push({ name: 'home' });
                     });
-            }
+            },
+
         }
     }
 </script>
