@@ -11,15 +11,16 @@
                                 <div class="form-group">
                                     <label for="li-email">Email</label>
                                     <input id="li-email" name="email" class="form-control" type="email"
-                                           v-model="login.email">
+                                           v-model="loginFields.email">
                                 </div>
                                 <div class="form-group">
                                     <label for="li-password">Password</label>
                                     <input id="li-password" name="password" class="form-control" type="password"
-                                           v-model="login.password">
+                                           v-model="loginFields.password">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-secondary">Log In</button>
+                                    <button class="btn btn-secondary"
+                                            @click="login">Log In</button>
                                 </div>
                             </form>
                         </div>
@@ -32,22 +33,22 @@
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input id="name" name="name" class="form-control" type="text"
-                                           v-model="signup.name">
+                                           v-model="signupFields.name">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input id="email" name="email" class="form-control" type="email"
-                                           v-model="signup.email">
+                                           v-model="signupFields.email">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input id="password" name="password" class="form-control" type="password"
-                                           v-model="signup.password">
+                                           v-model="signupFields.password">
                                 </div>
                                 <div class="form-group">
                                     <label for="password-confirm">Confirm Password</label>
                                     <input id="password-confirm" name="password_confirmation" class="form-control" type="password"
-                                           v-model="signup.password_confirmation">
+                                           v-model="signupFields.password_confirmation">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-secondary">Sign Up</button>
@@ -66,16 +67,27 @@
         name: "Login",
         data() {
             return {
-                login: {
+                loginFields: {
                     email: '',
                     password: ''
                 },
-                signup: {
+                signupFields: {
                     name: '',
                     email: '',
                     password: '',
                     password_confirmation: ''
                 }
+            }
+        },
+        methods: {
+            login() {
+                this.$store.dispatch('retrieveToken', {
+                    username: this.loginFields.email,
+                    password: this.loginFields.password
+                })
+                    .then(response => {
+                        this.$router.push({ name: 'home' });
+                    });
             }
         }
     }
