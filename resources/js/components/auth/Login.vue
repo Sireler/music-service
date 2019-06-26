@@ -3,11 +3,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                    <!-- Login form -->
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
                             <form @submit.prevent="login" class="p-4 rounded m-4">
                                 <h3 class="text-center">Log In</h3>
+
+                                <div v-if="loginServerError" class="alert alert-danger">
+                                    {{ loginServerError }}
+                                </div>
+
                                 <div class="form-group">
                                     <label for="li-email">Email</label>
                                     <input id="li-email" name="email" class="form-control" type="email"
@@ -24,6 +30,7 @@
                             </form>
                         </div>
                     </div>
+                    <!-- Registration form -->
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
@@ -32,17 +39,31 @@
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input id="name" name="name" class="form-control" type="text"
+                                           :class="{ 'is-invalid': registerServerErrors.name }"
                                            v-model="registerFields.name">
+                                    <div v-if="registerServerErrors.name" class="invalid-feedback">
+                                        {{ registerServerErrors.name[0] }}
+                                    </div>
                                 </div>
+
+
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input id="email" name="email" class="form-control" type="email"
+                                           :class="{ 'is-invalid': registerServerErrors.email }"
                                            v-model="registerFields.email">
+                                    <div v-if="registerServerErrors.email" class="invalid-feedback">
+                                        {{ registerServerErrors.email[0] }}
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input id="password" name="password" class="form-control" type="password"
+                                           :class="{ 'is-invalid': registerServerErrors.password }"
                                            v-model="registerFields.password">
+                                    <div v-if="registerServerErrors.password" class="invalid-feedback">
+                                        {{ registerServerErrors.password[0] }}
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password-confirm">Confirm Password</label>
@@ -75,7 +96,10 @@
                     email: '',
                     password: '',
                     password_confirmation: ''
-                }
+                },
+
+                loginServerError: '',
+                registerServerErrors: {},
             }
         },
         methods: {
@@ -86,6 +110,9 @@
                 })
                     .then(response => {
                         this.$router.push({ name: 'home' });
+                    })
+                    .catch(error => {
+                        this.loginServerError = error.response.data;
                     });
             },
 
@@ -97,7 +124,10 @@
                     password_confirmation: this.registerFields.password_confirmation
                 })
                     .then(response => {
-                        this.$router.push({ name: 'login' });
+                        this.$router.push({ name: 'main' });
+                    })
+                    .catch(error => {
+                        this.registerServerErrors = error.response.data.errors;
                     });
             }
         }
