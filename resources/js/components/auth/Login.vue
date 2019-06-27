@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                            <form @submit.prevent="login" class="p-4 rounded m-4">
+                            <form @submit.prevent="login" class="p-4 rounded m-4 bg-info">
                                 <h3 class="text-center">Log In</h3>
 
                                 <div v-if="loginServerError" class="alert alert-danger">
@@ -25,7 +25,7 @@
                                            v-model="loginFields.password">
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-secondary">Log In</button>
+                                    <button type="submit" class="btn bg-white text-info">Log In</button>
                                 </div>
                             </form>
                         </div>
@@ -34,7 +34,7 @@
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                            <form @submit.prevent="register" class="p-4 rounded m-4">
+                            <form @submit.prevent="register" class="p-4 rounded m-4 bg-info">
                                 <h3 class="text-center">Sign Up</h3>
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -71,7 +71,7 @@
                                            v-model="registerFields.password_confirmation">
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-secondary">Sign Up</button>
+                                    <button type="submit" class="btn bg-white text-info">Sign Up</button>
                                 </div>
                             </form>
                         </div>
@@ -135,8 +135,5 @@
 </script>
 
 <style scoped>
-form {
-    background: #EBF5EE;
-    color: #808080;
-}
+
 </style>
