@@ -5,12 +5,17 @@ import {store} from '../store/store.js';
 // Main '/'
 import Main from '../components/Main';
 
-// User's home page
-import Home from '../components/Home';
-
 // Auth
 import Login from '../components/auth/Login';
 import Logout from '../components/auth/Logout';
+
+// User's home page
+import Home from '../components/Home';
+
+// Home _ childrens
+import HomeAll from '../components/home/All';
+import HomeAlbums from '../components/home/Albums';
+import HomeArtists from '../components/home/Artists';
 
 Vue.use(Router);
 
@@ -28,7 +33,24 @@ const router = new Router({
             component: Home,
             meta: {
                 requiresAuth: true,
-            }
+            },
+            children: [
+                {
+                    name: 'home.all',
+                    path: 'all',
+                    component: HomeAll
+                },
+                {
+                    name: 'home.albums',
+                    path: 'albums',
+                    component: HomeAlbums
+                },
+                {
+                    name: 'home.artists',
+                    path: 'artists',
+                    component: HomeArtists
+                },
+            ]
         },
         {
             name: 'login',
