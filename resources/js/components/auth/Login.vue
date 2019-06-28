@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                            <form @submit.prevent="login" class="p-4 rounded m-4 bg-info">
+                            <form @submit.prevent="login" class="p-4 rounded m-4 bg-info vld-parent" ref="loginContainer">
                                 <h3 class="text-center">Log In</h3>
 
                                 <div v-if="loginServerError" class="alert alert-danger">
@@ -34,7 +34,7 @@
                     <div class="row">
                         <div class="col-md-8"></div>
                         <div class="col-md-4">
-                            <form @submit.prevent="register" class="p-4 rounded m-4 bg-info">
+                            <form @submit.prevent="register" class="p-4 rounded m-4 bg-info vld-parent" ref="registerContainer">
                                 <h3 class="text-center">Sign Up</h3>
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -104,19 +104,29 @@
         },
         methods: {
             login() {
+                let loader = this.$loading.show({
+                    container: this.$refs.loginContainer,
+                });
+
                 this.$store.dispatch('retrieveToken', {
                     username: this.loginFields.email,
                     password: this.loginFields.password
                 })
                     .then(response => {
                         this.$router.push({ name: 'home' });
+                        loader.hide();
                     })
                     .catch(error => {
                         this.loginServerError = error.response.data;
+                        loader.hide();
                     });
             },
 
             register() {
+                let loader = this.$loading.show({
+                    container: this.$refs.registerContainer,
+                });
+
                 this.$store.dispatch('register', {
                     name: this.registerFields.name,
                     email: this.registerFields.email,
@@ -125,9 +135,11 @@
                 })
                     .then(response => {
                         this.$router.push({ name: 'main' });
+                        loader.hide();
                     })
                     .catch(error => {
                         this.registerServerErrors = error.response.data.errors;
+                        loader.hide();
                     });
             }
         }
