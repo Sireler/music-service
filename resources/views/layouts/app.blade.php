@@ -22,9 +22,19 @@
 <body>
 
     <div id="app">
-        <main class="py-4">
-            @yield('content')
-        </main>
+
+        <div v-cloak>
+
+            <div class="v-cloak--inline"> <!-- Parts that will be visible before compiled your HTML -->
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+
+            <main class="py-4 v-cloak--hidden">
+                @yield('content')
+            </main>
+        </div>
     </div>
+
 </body>
 </html>

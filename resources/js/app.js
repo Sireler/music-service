@@ -13,8 +13,14 @@ import App from './App.vue';
 import router from './router/index.js';
 import VueRouter from 'vue-router';
 import {store} from './store/store.js';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.use(VueRouter);
+Vue.use(Loading, {
+    loader: 'dots',
+    color: '#47b9aa',
+});
 
 /**
  * The following block of code may be used to automatically register your

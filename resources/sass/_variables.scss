@@ -1,5 +1,15 @@
+// Custom colors
+$wild-sand: #f4f4f4;
+$laser: #cbaf6a;
+$puerto-rico: #47b9aa;
+$mobster: #7e7784;
+$copper-rose: #9e606c;
+$old-gold: #c8a233;
+$pomegranate: #f44336;
+$chateau-green: #4bb26b;
+
 // Body
-$body-bg: #542344;
+$body-bg: $wild-sand;
 $body-color: #ffffff;
 
 // Typography
@@ -21,3 +31,13 @@ $cyan: #6cb2eb;
 
 $secondary: #BFD1E5;
 $light: #EBF5EE;
+
+// Theme colors
+$theme-colors: (
+        primary: $puerto-rico,
+        secondary: $mobster,
+        success: $chateau-green,
+        info: $copper-rose,
+        warning: $old-gold,
+        danger: $pomegranate,
+);

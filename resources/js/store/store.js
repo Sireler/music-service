@@ -24,6 +24,23 @@ export const store = new Vuex.Store({
         }
     },
     actions: {
+        register(context, data) {
+            return new Promise((resolve, reject) => {
+                axios.post('/register', {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    password_confirmation: data.password_confirmation
+                })
+                    .then(response => {
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        },
+
         destroyToken(context) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
 

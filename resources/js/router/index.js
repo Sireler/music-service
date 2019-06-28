@@ -2,7 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import {store} from '../store/store.js';
 
+// Main '/'
 import Main from '../components/Main';
+
+// User's home page
 import Home from '../components/Home';
 
 // Auth
@@ -55,8 +58,8 @@ router.beforeEach((to, from, next) => {
             next()
         }
     } else if (to.matched.some(record => record.meta.requiresVisitor)) {
-        // this route requires auth, check if logged in
-        // if not, redirect to login page.
+        // this route requires visitor, check if logged in
+        // if logged, redirect to home page.
         if (store.getters.loggedIn) {
             next({
                 name: 'home',
@@ -65,7 +68,7 @@ router.beforeEach((to, from, next) => {
             next()
         }
     } else {
-        next() // make sure to always call next()!
+        next()
     }
 });
 
