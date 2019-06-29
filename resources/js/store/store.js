@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 
 Vue.use(Vuex);
-axios.defaults.baseURL = window.location.origin + '/api';
+axios.defaults.baseURL = window.location.origin + '/api/v1';
 
 export const store = new Vuex.Store({
     state: {
