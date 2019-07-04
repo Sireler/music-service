@@ -24,5 +24,13 @@ Route::prefix('v1')->group(function() {
     Route::middleware('auth:api')->post('/logout', 'AuthController@logout');
 
 
+    /** Song */
+    Route::get('/songs', 'API\SongController@all');
+    Route::get('/song/{id}', 'API\SongController@song');
+    Route::post('/song/create', 'API\SongController@create');
+
+    /** Artist */
+    Route::post('/artist/create', 'API\ArtistController@create');
+
 });
 
