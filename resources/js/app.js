@@ -13,6 +13,8 @@ import App from './App.vue';
 import router from './router/index.js';
 import VueRouter from 'vue-router';
 import {store} from './store/store.js';
+
+// Loading
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 
