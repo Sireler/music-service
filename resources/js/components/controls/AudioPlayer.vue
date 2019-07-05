@@ -22,44 +22,22 @@
 
 <script>
     import { VuePlyr } from 'vue-plyr';
-
     import 'vue-plyr/dist/vue-plyr.css';
+
+    import { mapState } from 'vuex';
 
     export default {
         name: "AudioPlayer",
         components: {
             'vue-plyr': VuePlyr
         },
-        methods: {
-            play() {
-                this.setTrack();
-                this.setVolume();
-                this.player.play();
-            },
-
-            setTrack() {
-
-            },
-
-            setVolume() {
-                this.player.volume = 0.05;
-            },
-
-            prevTrack() {
-
-            },
-            nextTrack() {
-
-            }
-        },
-
         computed: {
             player() {
                 return this.$refs.plyr.player;
             },
-            track() {
-                return this.$store.state.player.currentTrackUrl;
-            }
+            ...mapState({
+                track: state => state.player.currentTrackUrl
+            })
         },
 
         watch: {

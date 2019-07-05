@@ -47,7 +47,7 @@
         </div>
 
         <!-- Audio controls -->
-        <nav class="navbar fixed-bottom navbar-light bg-primary">
+        <nav v-show="track" class="navbar fixed-bottom navbar-light bg-primary">
             <AudioPlayer></AudioPlayer>
         </nav>
     </div>
@@ -56,12 +56,18 @@
 
 <script>
     import AudioPlayer from './controls/AudioPlayer';
+    import { mapState } from 'vuex';
 
     export default {
         name: "Home",
         components: {
             AudioPlayer
         },
+        computed: {
+            ...mapState({
+                track: state => state.player.currentTrackUrl
+            })
+        }
     }
 </script>
 

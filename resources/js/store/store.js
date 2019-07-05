@@ -14,5 +14,6 @@ export const store = new Vuex.Store({
         auth,
         player,
         songs
-    }
+    },
+    strict: process.env.NODE_ENV !== 'production'
 });
