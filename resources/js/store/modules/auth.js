@@ -2,6 +2,7 @@ import axios from 'axios';
 axios.defaults.baseURL = window.location.origin + '/api/v1';
 
 const auth = {
+    namespaced: true,
     state: {
         token: localStorage.getItem('access_token') || null,
     },

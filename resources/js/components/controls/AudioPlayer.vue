@@ -15,7 +15,7 @@
             </audio>
         </vue-plyr>
         <div class="controls mt-1">
-            {{ trackUrl }}
+            {{ track }}
         </div>
     </div>
 </template>
@@ -30,7 +30,6 @@
         components: {
             'vue-plyr': VuePlyr
         },
-        props: ['trackUrl'],
         methods: {
             play() {
                 this.setTrack();
@@ -57,11 +56,14 @@
         computed: {
             player() {
                 return this.$refs.plyr.player;
+            },
+            track() {
+                return this.$store.state.player.currentTrackUrl;
             }
         },
 
         watch: {
-            trackUrl(url) {
+            track(url) {
                 this.player.source = {
                     type: 'audio',
                     title: '',

@@ -2,6 +2,7 @@ import axios from 'axios';
 axios.defaults.baseURL = window.location.origin + '/api/v1';
 
 const songs = {
+    namespaced: true,
     state: {
         songs: [],
     },

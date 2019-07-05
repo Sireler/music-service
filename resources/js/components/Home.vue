@@ -39,8 +39,7 @@
                         <h1 class="h2 text-info">Home</h1>
                     </div>
 
-                    <router-view class="text-secondary"
-                                 @songChanged="setSong"></router-view>
+                    <router-view class="text-secondary"></router-view>
 
                 </main>
             </div>
@@ -49,7 +48,7 @@
 
         <!-- Audio controls -->
         <nav class="navbar fixed-bottom navbar-light bg-primary">
-            <AudioPlayer :trackUrl="songUrl"></AudioPlayer>
+            <AudioPlayer></AudioPlayer>
         </nav>
     </div>
 
@@ -63,21 +62,6 @@
         components: {
             AudioPlayer
         },
-        data() {
-            return {
-                songId: '',
-            }
-        },
-        methods: {
-            setSong(id) {
-                this.songId = id;
-            },
-        },
-        computed: {
-            songUrl() {
-                return 'http://music.test/api/v1/song/' + this.songId;
-            }
-        }
     }
 </script>
 
