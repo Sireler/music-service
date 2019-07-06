@@ -88,12 +88,18 @@ class SongController extends Controller
 
         $title = $info['comments']['title'] ?? '';
         $artistName = $info['comments']['artist'] ?? '';
+        $picture = $info['id3v2']['APIC'][0]['data'];
+
+
+        $mime = $info['id3v2']['APIC'][0]['image_mime'] ?? 'image/jpeg';
+        $base64Image = 'data:' . $mime . ';base64,' . base64_encode($picture);
 
         return response()->json([
             'message' => 'Uploaded',
             'info' => [
                 'title' => $title[0],
-                'artist' => $artistName[0]
+                'artist' => $artistName[0],
+                'image' => $base64Image
             ]
         ]);
     }

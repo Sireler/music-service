@@ -4,7 +4,6 @@
             <div class="card">
 
                 <UploadProgress></UploadProgress>
-
                 <div class="card-body">
                     <div class="custom-file mb-2">
                         <input type="file" class="custom-file-input" id="customFileInput" required

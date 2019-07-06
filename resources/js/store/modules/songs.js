@@ -6,10 +6,7 @@ const songs = {
     state: {
         songs: [],
         uploadProgress: 0,
-        uploadInfo: {
-            title: '',
-            artist: '',
-        }
+        uploadInfo: {}
     },
     mutations: {
         setProgress(state, progress) {
@@ -49,7 +46,8 @@ const songs = {
                     .then(response => {
                         context.commit('setUploadInfo', {
                             title: response.data.info.title,
-                            artist: response.data.info.artist
+                            artist: response.data.info.artist,
+                            image: response.data.info.image
                         });
 
                         resolve(response);
