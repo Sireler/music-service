@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Artist;
+use App\Helpers\ID3Parser;
 use App\Http\Controllers\Controller;
 use App\Song;
 use getID3;
@@ -71,7 +72,7 @@ class SongController extends Controller
     }
 
 
-    public function upload(Request $request, getID3 $getID3)
+    public function upload(Request $request, ID3Parser $parser)
     {
         $this->validate($request, [
             'track' => 'required'
@@ -79,28 +80,19 @@ class SongController extends Controller
 
         $file = $request->file('track');
 
-        $path = $file->store('music');
+        $fileHash = str_replace('.' . $file->extension(), '', $file->hashName());
+        $fileName = $fileHash . '.' . $file->getClientOriginalExtension();
+
+        $path = $file->storeAs('music', $fileName);
+
 
         $infoPath = storage_path('app/' . $path);
 
-        $info = $getID3->analyze($infoPath);
-        getid3_lib::CopyTagsToComments($info);
-
-        $title = $info['comments']['title'] ?? '';
-        $artistName = $info['comments']['artist'] ?? '';
-        $picture = $info['id3v2']['APIC'][0]['data'];
-
-
-        $mime = $info['id3v2']['APIC'][0]['image_mime'] ?? 'image/jpeg';
-        $base64Image = 'data:' . $mime . ';base64,' . base64_encode($picture);
+        $info = $parser->getTrackInfo($infoPath);
 
         return response()->json([
             'message' => 'Uploaded',
-            'info' => [
-                'title' => $title[0],
-                'artist' => $artistName[0],
-                'image' => $base64Image
-            ]
+            'info' => $info
         ]);
     }
 }

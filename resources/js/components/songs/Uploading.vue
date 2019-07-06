@@ -4,12 +4,12 @@
             <div class="uploading-info">
                 <div class="row">
                     <div class="col-md-6">
-                        {{ title }}
+                        <input class="form-control" type="text" v-model="title">
                         <hr>
-                        {{ artist }}
+                        <input class="form-control" type="text" v-model="artist">
                     </div>
                     <div class="col-md-6">
-                        <div class="image-container">
+                        <div v-if="image" class="image-container">
                             <img class="float-right" :src="image" alt="Cover" width="200" height="200">
                         </div>
                     </div>
