@@ -26,6 +26,14 @@
                         Artists
                     </router-link>
                 </li>
+                <hr>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'home.upload' }" exact-active-class="active">
+                        <span class="oi oi-data-transfer-upload"></span>
+                        Upload
+                    </router-link>
+                </li>
+
             </ul>
         </div>
     </nav>

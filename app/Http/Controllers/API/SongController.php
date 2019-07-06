@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Artist;
 use App\Http\Controllers\Controller;
 use App\Song;
 use getID3;
+use getid3_lib;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -66,5 +68,33 @@ class SongController extends Controller
         BinaryFileResponse::trustXSendfileTypeHeader();
 
         return $response;
+    }
+
+
+    public function upload(Request $request, getID3 $getID3)
+    {
+        $this->validate($request, [
+            'track' => 'required'
+        ]);
+
+        $file = $request->file('track');
+
+        $path = $file->store('music');
+
+        $infoPath = storage_path('app/' . $path);
+
+        $info = $getID3->analyze($infoPath);
+        getid3_lib::CopyTagsToComments($info);
+
+        $title = $info['comments']['title'] ?? '';
+        $artistName = $info['comments']['artist'] ?? '';
+
+        return response()->json([
+            'message' => 'Uploaded',
+            'info' => [
+                'title' => $title[0],
+                'artist' => $artistName[0]
+            ]
+        ]);
     }
 }

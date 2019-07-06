@@ -16,6 +16,7 @@ import Home from '../components/Home';
 import HomeAll from '../components/home/All';
 import HomeAlbums from '../components/home/Albums';
 import HomeArtists from '../components/home/Artists';
+import UploadTrack from '../components/songs/Upload';
 
 Vue.use(Router);
 
@@ -50,6 +51,12 @@ const router = new Router({
                     path: 'artists',
                     component: HomeArtists
                 },
+
+                {
+                    name: 'home.upload',
+                    path: 'upload',
+                    component: UploadTrack
+                }
             ]
         },
         {

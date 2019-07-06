@@ -28,6 +28,8 @@ Route::prefix('v1')->group(function() {
     Route::get('/songs', 'API\SongController@all');
     Route::get('/song/{id}', 'API\SongController@song');
     Route::post('/song/create', 'API\SongController@create');
+    Route::post('/songs/upload', 'API\SongController@upload');
+
 
     /** Artist */
     Route::post('/artist/create', 'API\ArtistController@create');
