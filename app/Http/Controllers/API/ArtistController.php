@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 class ArtistController extends Controller
 {
     /**
+     * Get all artists
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function all()
+    {
+        return response()->json([
+            'artists' => Artist::all()
+        ]);
+    }
+
+    /**
      * Store a new artist
      *
      * @param Request $request
