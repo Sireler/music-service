@@ -14,6 +14,12 @@ const songs = {
         },
         setUploadInfo(state, info) {
             state.uploadInfo = info;
+        },
+        updateArtist(state, artist) {
+            state.uploadInfo.artist = artist;
+        },
+        updateTitle(state, title) {
+            state.uploadInfo.title = title;
         }
     },
     actions: {
@@ -47,9 +53,23 @@ const songs = {
                         context.commit('setUploadInfo', {
                             title: response.data.info.title,
                             artist: response.data.info.artist,
-                            image: response.data.info.image
+                            image: response.data.info.image,
+                            filename: response.data.info.filename,
+                            length: response.data.info.length
                         });
 
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        },
+
+        storeTrack(context) {
+            return new Promise((resolve, reject) => {
+                axios.post('/song/create', context.state.uploadInfo)
+                    .then(response => {
                         resolve(response);
                     })
                     .catch(error => {

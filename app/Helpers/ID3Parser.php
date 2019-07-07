@@ -25,14 +25,18 @@ class ID3Parser
         $info = $this->getID3->analyze($path);
         getid3_lib::CopyTagsToComments($info);
 
+        $filename = $info['filename'] ?? '';
         $title = $info['comments']['title'] ?? '';
         $artistName = $info['comments']['artist'] ?? '';
+        $length = $info['playtime_seconds'] ?? 0;
 
         $picture = $info['id3v2']['APIC'][0]['data'] ?? '';
 
         $trackInfo = [
+            'filename' => $filename,
             'title' => $title[0] ?? '',
-            'artist' => $artistName[0] ?? ''
+            'artist' => $artistName[0] ?? '',
+            'length' => $length
         ];
 
         if (!empty($picture)) {

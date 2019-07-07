@@ -39,18 +39,26 @@ class SongController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-
+            'title' => 'required|max:30',
+            'artist' => 'required|max:30',
+            'length' => 'required',
+            'filename' => 'required'
         ]);
+
+        $artist = Artist::firstOrCreate(['name' => $request->get('artist')]);
 
         $id = Str::random(32);
-        Song::create([
+        $song = $artist->songs()->create([
             'id' => $id,
-            'title' => 'qwerty',
-            'length' => '144',
-            'path' => 'app/music/face-umorist.mp3'
+            'title' => $request->get('title'),
+            'length' => $request->get('length'),
+            'path' => 'music/' . $request->get('filename')
         ]);
 
-        return response()->json();
+        return response()->json([
+            'message' => 'Song created',
+            'song' => $song
+        ], 201);
     }
 
     /**
@@ -63,7 +71,11 @@ class SongController extends Controller
     {
         $song = Song::find($id);
 
-        $path = storage_path($song->path);
+        if (!Storage::disk('local')->exists($song->path)) {
+            return response()->json(['message' => 'Track not found']);
+        }
+
+        $path = storage_path('app/' . $song->path);
 
         $response = new BinaryFileResponse($path);
         BinaryFileResponse::trustXSendfileTypeHeader();
@@ -77,6 +89,10 @@ class SongController extends Controller
         $this->validate($request, [
             'track' => 'required'
         ]);
+
+        if (!$request->hasFile('track')) {
+            return response()->json(['message' => 'Upload error']);
+        }
 
         $file = $request->file('track');
 

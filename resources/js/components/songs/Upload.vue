@@ -36,7 +36,9 @@
         methods: {
             handleUpload() {
                 this.file = this.$refs.file.files[0];
-                this.submitFile();
+                if (this.file) {
+                    this.submitFile();
+                }
             },
             submitFile() {
                 let formData = new FormData();
