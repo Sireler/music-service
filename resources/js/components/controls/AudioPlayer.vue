@@ -15,53 +15,33 @@
             </audio>
         </vue-plyr>
         <div class="controls mt-1">
-            {{ trackUrl }}
+            {{ track }}
         </div>
     </div>
 </template>
 
 <script>
     import { VuePlyr } from 'vue-plyr';
-
     import 'vue-plyr/dist/vue-plyr.css';
+
+    import { mapState } from 'vuex';
 
     export default {
         name: "AudioPlayer",
         components: {
             'vue-plyr': VuePlyr
         },
-        props: ['trackUrl'],
-        methods: {
-            play() {
-                this.setTrack();
-                this.setVolume();
-                this.player.play();
-            },
-
-            setTrack() {
-
-            },
-
-            setVolume() {
-                this.player.volume = 0.05;
-            },
-
-            prevTrack() {
-
-            },
-            nextTrack() {
-
-            }
-        },
-
         computed: {
             player() {
                 return this.$refs.plyr.player;
-            }
+            },
+            ...mapState({
+                track: state => state.player.currentTrackUrl
+            })
         },
 
         watch: {
-            trackUrl(url) {
+            track(url) {
                 this.player.source = {
                     type: 'audio',
                     title: '',

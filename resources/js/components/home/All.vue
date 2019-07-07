@@ -22,10 +22,9 @@
         },
         methods: {
             getAllSongs() {
-                this.$store.dispatch('getAllSongs')
+                this.$store.dispatch('songs/getAllSongs')
                     .then(response => {
                         this.songs = response.data.songs;
-                        console.log(this.songs)
                     })
                     .catch(error => {
 
@@ -33,7 +32,7 @@
             },
 
             setSong(id) {
-                this.$emit('songChanged', id);
+                this.$store.commit('player/setTrackUrl', id);
             }
         },
         mounted() {

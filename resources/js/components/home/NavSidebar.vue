@@ -1,0 +1,50 @@
+<template>
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar position-fixed">
+        <div class="sidebar-sticky">
+            <ul class="nav nav-pills flex-column pt-2">
+                <li class="nav-item active">
+                    <router-link class="nav-link" :to="{ name: 'home' }" exact-active-class="active">
+                        <span class="oi oi-home"></span>
+                        Home
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'home.all' }" exact-active-class="active">
+                        <span class="oi oi-musical-note"></span>
+                        All songs
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'home.albums' }" exact-active-class="active">
+                        <span class="oi oi-media-play"></span>
+                        Albums
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'home.artists' }" exact-active-class="active">
+                        <span class="oi oi-person"></span>
+                        Artists
+                    </router-link>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <router-link class="nav-link" :to="{ name: 'home.upload' }" exact-active-class="active">
+                        <span class="oi oi-data-transfer-upload"></span>
+                        Upload
+                    </router-link>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</template>
+
+<script>
+    export default {
+        name: "NavSidebar"
+    }
+</script>
+
+<style scoped>
+
+</style>

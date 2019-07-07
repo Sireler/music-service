@@ -16,6 +16,7 @@ import Home from '../components/Home';
 import HomeAll from '../components/home/All';
 import HomeAlbums from '../components/home/Albums';
 import HomeArtists from '../components/home/Artists';
+import UploadTrack from '../components/songs/Upload';
 
 Vue.use(Router);
 
@@ -50,6 +51,12 @@ const router = new Router({
                     path: 'artists',
                     component: HomeArtists
                 },
+
+                {
+                    name: 'home.upload',
+                    path: 'upload',
+                    component: UploadTrack
+                }
             ]
         },
         {
@@ -72,7 +79,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
-        if (!store.getters.loggedIn) {
+        if (!store.getters['auth/loggedIn']) {
             next({
                 name: 'login',
             })
@@ -82,7 +89,7 @@ router.beforeEach((to, from, next) => {
     } else if (to.matched.some(record => record.meta.requiresVisitor)) {
         // this route requires visitor, check if logged in
         // if logged, redirect to home page.
-        if (store.getters.loggedIn) {
+        if (store.getters['auth/loggedIn']) {
             next({
                 name: 'home',
             })

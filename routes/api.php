@@ -13,11 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::prefix('v1')->group(function() {
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+
     /** Auth routes */
     Route::post('/login', 'AuthController@login');
     Route::post('/register', 'AuthController@register');
@@ -28,6 +28,8 @@ Route::prefix('v1')->group(function() {
     Route::get('/songs', 'API\SongController@all');
     Route::get('/song/{id}', 'API\SongController@song');
     Route::post('/song/create', 'API\SongController@create');
+    Route::post('/songs/upload', 'API\SongController@upload');
+
 
     /** Artist */
     Route::post('/artist/create', 'API\ArtistController@create');

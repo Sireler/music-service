@@ -7,6 +7,8 @@ use getID3;
 
 class getID3ServiceProvider extends ServiceProvider
 {
+    const TAGGING_FORMAT = 'UTF-8';
+
     /**
      * Register services.
      *
@@ -15,7 +17,10 @@ class getID3ServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(getID3::class, function ($app) {
-            return new getID3();
+            $getID3 = new getID3();
+            $getID3->setOption(['encoding' => self::TAGGING_FORMAT]);
+
+            return $getID3;
         });
     }
 

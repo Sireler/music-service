@@ -108,7 +108,7 @@
                     container: this.$refs.loginContainer,
                 });
 
-                this.$store.dispatch('retrieveToken', {
+                this.$store.dispatch('auth/retrieveToken', {
                     username: this.loginFields.email,
                     password: this.loginFields.password
                 })
@@ -127,7 +127,7 @@
                     container: this.$refs.registerContainer,
                 });
 
-                this.$store.dispatch('register', {
+                this.$store.dispatch('auth/register', {
                     name: this.registerFields.name,
                     email: this.registerFields.email,
                     password: this.registerFields.password,

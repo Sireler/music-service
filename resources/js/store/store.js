@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import auth from './modules/auth';
 import songs from './modules/songs';
+import player from './modules/player';
 
 Vue.use(Vuex);
 axios.defaults.baseURL = window.location.origin + '/api/v1';
@@ -11,6 +12,8 @@ axios.defaults.baseURL = window.location.origin + '/api/v1';
 export const store = new Vuex.Store({
     modules: {
         auth,
+        player,
         songs
-    }
+    },
+    strict: process.env.NODE_ENV !== 'production'
 });
