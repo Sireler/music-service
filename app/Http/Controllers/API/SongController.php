@@ -83,7 +83,14 @@ class SongController extends Controller
         return $response;
     }
 
-
+    /**
+     * Upload a track and get id3 data to store in db
+     *
+     * @param Request $request
+     * @param ID3Parser $parser
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function upload(Request $request, ID3Parser $parser)
     {
         $this->validate($request, [
