@@ -70,6 +70,9 @@ const songs = {
             return new Promise((resolve, reject) => {
                 axios.post('/song/create', context.state.uploadInfo)
                     .then(response => {
+                        context.commit('setProgress', 0);
+                        context.commit('setUploadInfo', {});
+
                         resolve(response);
                     })
                     .catch(error => {

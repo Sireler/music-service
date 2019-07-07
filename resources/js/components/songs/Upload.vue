@@ -13,7 +13,9 @@
                 </div>
             </div>
         </div>
-        <Uploading v-if="uploaded"></Uploading>
+        <Uploading v-if="uploaded"
+                   @uploadEnd="uploaded = false">
+        </Uploading>
     </div>
 </template>
 

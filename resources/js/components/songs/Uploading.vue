@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapState } from 'vuex';
 
     export default {
         name: "Uploading",
@@ -49,9 +49,12 @@
             updateArtist(e) {
                 this.$store.commit('songs/updateArtist', e.target.value);
             },
-            ...mapActions('songs', [
-                'storeTrack'
-            ])
+            storeTrack() {
+                this.$store.dispatch('songs/storeTrack')
+                    .then(response => {
+                        this.$emit('uploadEnd');
+                    });
+            }
         }
     }
 </script>
