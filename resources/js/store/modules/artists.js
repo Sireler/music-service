@@ -13,6 +13,9 @@ const artists = {
         },
         set(state, data) {
             state.artist = data;
+        },
+        clearArtist(state) {
+            state.artist = {};
         }
     },
     actions: {

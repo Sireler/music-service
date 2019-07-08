@@ -31,7 +31,7 @@
 
 <script>
     import NavTab from './artist/Nav';
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapMutations } from 'vuex';
 
     export default {
         name: "Artist",
@@ -41,18 +41,24 @@
         methods: {
             ...mapActions('artists', [
                 'get'
+            ]),
+            ...mapMutations('artists', [
+                'clearArtist'
             ])
         },
         computed: {
             ...mapState({
                 artist: state => state.artists.artist
-            })
+            }),
+            id() {
+                return this.$route.params.id;
+            }
         },
 
         mounted() {
-            let id = this.$route.params.id;
+            this.clearArtist();
 
-            this.get(id);
+            this.get(this.id);
         }
     }
 </script>
