@@ -45,4 +45,11 @@ class ArtistController extends Controller
             'artist' => Artist::findOrFail($id)
         ]);
     }
+
+    public function songs(Request $request, int $id)
+    {
+        return response()->json([
+            'songs' => Artist::findOrFail($id)->songs
+        ]);
+    }
 }

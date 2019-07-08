@@ -9,15 +9,27 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="tracks" role="tabpanel" aria-labelledby="tracks-tab">Tracks</div>
+            <div class="tab-pane fade show active" id="tracks" role="tabpanel" aria-labelledby="tracks-tab">
+                <div class="col-md-8">
+                    <div class="track" v-for="track in tracks">
+                        <Track :track="track"></Track>
+                    </div>
+                </div>
+            </div>
             <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">Albums</div>
         </div>
     </div>
 </template>
 
 <script>
+    import Track from '../../../songs/Track';
+
     export default {
-        name: "Nav"
+        name: "Nav",
+        props: ['tracks'],
+        components: {
+            Track
+        }
     }
 </script>
 

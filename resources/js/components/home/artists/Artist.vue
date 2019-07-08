@@ -21,7 +21,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <NavTab></NavTab>
+                        <NavTab :tracks="songs"></NavTab>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,8 @@
         },
         methods: {
             ...mapActions('artists', [
-                'get'
+                'get',
+                'getArtistSongs'
             ]),
             ...mapMutations('artists', [
                 'clearArtist'
@@ -48,7 +49,8 @@
         },
         computed: {
             ...mapState({
-                artist: state => state.artists.artist
+                artist: state => state.artists.artist,
+                songs: state => state.artists.artistSongs
             }),
             id() {
                 return this.$route.params.id;
@@ -59,6 +61,7 @@
             this.clearArtist();
 
             this.get(this.id);
+            this.getArtistSongs(this.id);
         }
     }
 </script>
