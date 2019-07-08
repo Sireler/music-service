@@ -38,4 +38,11 @@ class ArtistController extends Controller
             'data' => Artist::create($request->all())
         ], 201);
     }
+
+    public function artist(Request $request, int $id)
+    {
+        return response()->json([
+            'artist' => Artist::findOrFail($id)
+        ]);
+    }
 }

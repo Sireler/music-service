@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function() {
 
     /** Artist */
     Route::get('/artists', 'API\ArtistController@all');
+    Route::get('/artists/{id}', 'API\ArtistController@artist');
     Route::post('/artist/create', 'API\ArtistController@create');
 
 });

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-4 mb-4 artist-container"
                  v-for="artist in list"
-                 @click="toArtist">
+                 @click="toArtist(artist.id)">
                 <div class="card artist-card">
                     <img :src="artist.image" alt="artist" class="card-img-top">
                     <div class="card-body">
@@ -21,8 +21,11 @@
     export default {
         name: "Artists",
         methods: {
-            toArtist() {
-
+            toArtist(userId) {
+                this.$router.push({
+                    name: 'home.artists.artist',
+                    params: { id: userId }
+                });
             }
         },
         computed: {
