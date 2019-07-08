@@ -17,14 +17,27 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <NavTab></NavTab>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import NavTab from './artist/Nav';
     import { mapState, mapActions } from 'vuex';
 
     export default {
         name: "Artist",
+        components: {
+            NavTab
+        },
         methods: {
             ...mapActions('artists', [
                 'get'
