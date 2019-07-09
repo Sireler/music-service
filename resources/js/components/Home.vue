@@ -18,7 +18,7 @@
         </div>
 
         <!-- Audio controls -->
-        <nav v-show="track" class="navbar fixed-bottom navbar-light bg-primary">
+        <nav v-show="track" class="navbar fixed-bottom navbar-light bg-primary player-container">
             <AudioPlayer></AudioPlayer>
         </nav>
     </div>
@@ -45,5 +45,10 @@
 </script>
 
 <style scoped>
-
+    .player-container {
+        height: 75px;
+    }
+    .home-container {
+        margin-bottom: 100px;
+    }
 </style>

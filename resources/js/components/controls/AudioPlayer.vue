@@ -14,9 +14,6 @@
                 <source />
             </audio>
         </vue-plyr>
-        <div class="controls mt-1">
-            {{ track }}
-        </div>
     </div>
 </template>
 
