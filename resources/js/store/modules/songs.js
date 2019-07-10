@@ -20,6 +20,9 @@ const songs = {
         },
         updateTitle(state, title) {
             state.uploadInfo.title = title;
+        },
+        updateAlbum(state, album) {
+            state.uploadInfo.album = album;
         }
     },
     actions: {
@@ -55,7 +58,8 @@ const songs = {
                             artist: response.data.info.artist,
                             image: response.data.info.image,
                             filename: response.data.info.filename,
-                            length: response.data.info.length
+                            length: response.data.info.length,
+                            album: response.data.info.album
                         });
 
                         resolve(response);
