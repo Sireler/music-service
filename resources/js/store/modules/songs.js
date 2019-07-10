@@ -15,14 +15,8 @@ const songs = {
         setUploadInfo(state, info) {
             state.uploadInfo = info;
         },
-        updateArtist(state, artist) {
-            state.uploadInfo.artist = artist;
-        },
-        updateTitle(state, title) {
-            state.uploadInfo.title = title;
-        },
-        updateAlbum(state, album) {
-            state.uploadInfo.album = album;
+        updateInfo(state, info) {
+            state.uploadInfo[info.key] = info.value;
         }
     },
     actions: {

@@ -10,21 +10,21 @@
                             <label for="track">Track</label>
                             <input id="track" class="form-control" type="text"
                                    :value="title"
-                                   @input="updateTitle">
+                                   @input="updateInfo({ key: 'title', value: $event.target.value })">
                         </div>
                         <hr>
                         <div class="track-artist">
                             <label for="artist">Artist</label>
                             <input id="artist" class="form-control" type="text"
                                    :value="artist"
-                                   @input="updateArtist">
+                                   @input="updateInfo({ key: 'artist', value: $event.target.value })">
                         </div>
                         <hr>
                         <div class="track-album">
                             <label for="album">Album</label>
                             <input id="album" class="form-control" type="text"
                                    :value="album"
-                                   @input="updateAlbum">
+                                   @input="updateInfo({ key: 'album', value: $event.target.value })">
                         </div>
                     </div>
 
@@ -58,17 +58,8 @@
         },
         methods: {
             ...mapMutations('songs', [
-                'updateAlbum'
+                'updateInfo'
             ]),
-            updateTitle(e) {
-                this.$store.commit('songs/updateTitle', e.target.value);
-            },
-            updateArtist(e) {
-                this.$store.commit('songs/updateArtist', e.target.value);
-            },
-            updateAlbum(e) {
-                this.$store.commit('songs/updateAlbum', e.target.value);
-            },
             storeTrack() {
                 this.$store.dispatch('songs/storeTrack')
                     .then(response => {
