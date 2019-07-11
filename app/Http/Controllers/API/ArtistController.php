@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Artist;
 use App\Http\Controllers\Controller;
+use App\Song;
 use Illuminate\Http\Request;
 
 class ArtistController extends Controller
@@ -48,8 +49,12 @@ class ArtistController extends Controller
 
     public function songs(Request $request, int $id)
     {
+        $songs = Song::whereIn('album_id', function($query) use ($id) {
+            $query->select('id')->from('albums')->where('artist_id', $id);
+        })->get();
+
         return response()->json([
-            'songs' => Artist::findOrFail($id)->songs
+            'songs' => $songs
         ]);
     }
 }

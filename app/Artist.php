@@ -8,8 +8,8 @@ class Artist extends Model
 {
     protected $fillable = ['name', 'image'];
 
-    public function songs()
+    public function albums()
     {
-        return $this->hasMany('App\Song');
+        return $this->hasMany('App\Album');
     }
 }

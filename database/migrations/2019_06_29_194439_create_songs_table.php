@@ -15,8 +15,7 @@ class CreateSongsTable extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->string('id', 32)->primary();
-            $table->bigInteger('album_id')->unsigned()->nullable();
-            $table->bigInteger('artist_id')->unsigned()->nullable();
+            $table->bigInteger('album_id')->unsigned();
             $table->string('title');
             $table->float('length');
             $table->text('path');
@@ -25,11 +24,6 @@ class CreateSongsTable extends Migration
             $table->foreign('album_id')
                 ->references('id')
                 ->on('albums')
-                ->onDelete('cascade');
-
-            $table->foreign('artist_id')
-                ->references('id')
-                ->on('artists')
                 ->onDelete('cascade');
         });
     }
