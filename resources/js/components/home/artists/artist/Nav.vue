@@ -16,19 +16,27 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">Albums</div>
+            <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">
+                <div class="col-md-12">
+                    <div class="album" v-for="album in albums">
+                        <Album :album="album"></Album>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import Track from '../../../songs/Track';
+    import Album from '../../../songs/Album';
 
     export default {
         name: "Nav",
-        props: ['tracks'],
+        props: ['tracks', 'albums'],
         components: {
-            Track
+            Track,
+            Album
         }
     }
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Album;
 use App\Artist;
 use App\Http\Controllers\Controller;
 use App\Song;
@@ -55,6 +56,15 @@ class ArtistController extends Controller
 
         return response()->json([
             'songs' => $songs
+        ]);
+    }
+
+    public function albums(Request $request, int $id)
+    {
+        $albums = Album::where('artist_id', $id)->get();
+
+        return response()->json([
+            'albums' => $albums
         ]);
     }
 }

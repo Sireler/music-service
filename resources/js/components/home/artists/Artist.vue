@@ -21,7 +21,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <NavTab :tracks="songs"></NavTab>
+                        <Nav :tracks="songs" :albums="albums"></Nav>
                     </div>
                 </div>
             </div>
@@ -30,18 +30,19 @@
 </template>
 
 <script>
-    import NavTab from './artist/Nav';
+    import Nav from './artist/Nav';
     import { mapState, mapActions, mapMutations } from 'vuex';
 
     export default {
         name: "Artist",
         components: {
-            NavTab
+            Nav
         },
         methods: {
             ...mapActions('artists', [
                 'get',
-                'getArtistSongs'
+                'getArtistSongs',
+                'getArtistAlbums'
             ]),
             ...mapMutations('artists', [
                 'clearArtist'
@@ -50,7 +51,8 @@
         computed: {
             ...mapState({
                 artist: state => state.artists.artist,
-                songs: state => state.artists.artistSongs
+                songs: state => state.artists.artistSongs,
+                albums: state => state.artists.artistAlbums
             }),
             id() {
                 return this.$route.params.id;
@@ -62,6 +64,7 @@
 
             this.get(this.id);
             this.getArtistSongs(this.id);
+            this.getArtistAlbums(this.id);
         }
     }
 </script>
