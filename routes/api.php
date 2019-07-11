@@ -38,5 +38,8 @@ Route::prefix('v1')->group(function() {
     Route::get('/artists/{id}/albums', 'API\ArtistController@albums');
     Route::post('/artist/create', 'API\ArtistController@create');
 
+    /** Albums */
+    Route::get('/albums/{id}', 'API\AlbumController@album');
+    Route::get('/albums/{id}/tracks', 'API\AlbumController@tracks');
 });
 

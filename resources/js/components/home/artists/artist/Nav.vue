@@ -29,7 +29,7 @@
 
 <script>
     import Track from '../../../songs/Track';
-    import Album from '../../../songs/Album';
+    import Album from '../../../songs/ArtistAlbum';
 
     export default {
         name: "Nav",
