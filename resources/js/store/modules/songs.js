@@ -15,11 +15,8 @@ const songs = {
         setUploadInfo(state, info) {
             state.uploadInfo = info;
         },
-        updateArtist(state, artist) {
-            state.uploadInfo.artist = artist;
-        },
-        updateTitle(state, title) {
-            state.uploadInfo.title = title;
+        updateInfo(state, info) {
+            state.uploadInfo[info.key] = info.value;
         }
     },
     actions: {
@@ -55,7 +52,8 @@ const songs = {
                             artist: response.data.info.artist,
                             image: response.data.info.image,
                             filename: response.data.info.filename,
-                            length: response.data.info.length
+                            length: response.data.info.length,
+                            album: response.data.info.album
                         });
 
                         resolve(response);

@@ -15,8 +15,12 @@ import Home from '../components/Home';
 // Home _ childrens
 import HomeAll from '../components/home/All';
 import HomeAlbums from '../components/home/Albums';
-import HomeArtists from '../components/home/Artists';
+import HomeArtists from '../components/home/artists/Artists';
+import HomeArtist from '../components/home/artists/Artist';
 import UploadTrack from '../components/songs/Upload';
+
+// Album
+import Album from '../components/songs/Album';
 
 Vue.use(Router);
 
@@ -49,7 +53,17 @@ const router = new Router({
                 {
                     name: 'home.artists',
                     path: 'artists',
-                    component: HomeArtists
+                    component: HomeArtists,
+                },
+                {
+                    name: 'home.artists.artist',
+                    path: 'artists/:id',
+                    component: HomeArtist
+                },
+                {
+                    name: 'home.album',
+                    path: 'albums/:id',
+                    component: Album
                 },
 
                 {

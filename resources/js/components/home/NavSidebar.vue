@@ -21,7 +21,7 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'home.artists' }" exact-active-class="active">
+                    <router-link class="nav-link" :to="{ name: 'home.artists' }" active-class="active">
                         <span class="oi oi-person"></span>
                         Artists
                     </router-link>

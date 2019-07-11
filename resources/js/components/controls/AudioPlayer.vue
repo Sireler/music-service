@@ -14,9 +14,6 @@
                 <source />
             </audio>
         </vue-plyr>
-        <div class="controls mt-1">
-            {{ track }}
-        </div>
     </div>
 </template>
 
@@ -24,7 +21,7 @@
     import { VuePlyr } from 'vue-plyr';
     import 'vue-plyr/dist/vue-plyr.css';
 
-    import { mapState } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
 
     export default {
         name: "AudioPlayer",
@@ -36,10 +33,16 @@
                 return this.$refs.plyr.player;
             },
             ...mapState({
-                track: state => state.player.currentTrackUrl
-            })
+                track: state => state.player.currentTrackUrl,
+                playing: state => state.player.play
+            }),
         },
-
+        methods: {
+            ...mapMutations('player', [
+                'play',
+                'pause'
+            ])
+        },
         watch: {
             track(url) {
                 this.player.source = {
@@ -53,7 +56,24 @@
                     ],
                 };
                 this.player.play();
+            },
+            playing(p) {
+                if (p) {
+                    this.player.play();
+                } else {
+                    this.player.pause();
+                }
             }
+        },
+
+        mounted() {
+            this.player.on('play', () => {
+                this.play();
+            });
+
+            this.player.on('pause', () => {
+                this.pause();
+            });
         }
     }
 </script>

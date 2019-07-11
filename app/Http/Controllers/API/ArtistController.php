@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Album;
 use App\Artist;
 use App\Http\Controllers\Controller;
+use App\Song;
 use Illuminate\Http\Request;
 
 class ArtistController extends Controller
 {
+    /**
+     * Get all artists
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function all()
+    {
+        return response()->json([
+            'artists' => Artist::all()
+        ]);
+    }
+
     /**
      * Store a new artist
      *
@@ -25,5 +39,32 @@ class ArtistController extends Controller
             'message' => 'Created',
             'data' => Artist::create($request->all())
         ], 201);
+    }
+
+    public function artist(Request $request, int $id)
+    {
+        return response()->json([
+            'artist' => Artist::findOrFail($id)
+        ]);
+    }
+
+    public function songs(Request $request, int $id)
+    {
+        $songs = Song::whereIn('album_id', function($query) use ($id) {
+            $query->select('id')->from('albums')->where('artist_id', $id);
+        })->get();
+
+        return response()->json([
+            'songs' => $songs
+        ]);
+    }
+
+    public function albums(Request $request, int $id)
+    {
+        $albums = Album::where('artist_id', $id)->get();
+
+        return response()->json([
+            'albums' => $albums
+        ]);
     }
 }

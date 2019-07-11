@@ -26,16 +26,18 @@ class ID3Parser
         getid3_lib::CopyTagsToComments($info);
 
         $filename = $info['filename'] ?? '';
-        $title = $info['comments']['title'] ?? '';
-        $artistName = $info['comments']['artist'] ?? '';
+        $title = $info['comments']['title'][0] ?? '';
+        $artistName = $info['comments']['artist'][0] ?? '';
+        $album = $info['comments']['album'][0] ?? '';
         $length = $info['playtime_seconds'] ?? 0;
 
         $picture = $info['id3v2']['APIC'][0]['data'] ?? '';
 
         $trackInfo = [
             'filename' => $filename,
-            'title' => $title[0] ?? '',
-            'artist' => $artistName[0] ?? '',
+            'title' => $title,
+            'artist' => $artistName,
+            'album' => $album,
             'length' => $length
         ];
 

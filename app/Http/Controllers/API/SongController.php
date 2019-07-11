@@ -41,14 +41,16 @@ class SongController extends Controller
         $this->validate($request, [
             'title' => 'required|max:30',
             'artist' => 'required|max:30',
+            'album' => 'required|max:30',
             'length' => 'required',
             'filename' => 'required'
         ]);
 
         $artist = Artist::firstOrCreate(['name' => $request->get('artist')]);
+        $album = $artist->albums()->firstOrCreate(['name' => $request->get('album')]);
 
         $id = Str::random(32);
-        $song = $artist->songs()->create([
+        $song = $album->songs()->create([
             'id' => $id,
             'title' => $request->get('title'),
             'length' => $request->get('length'),
