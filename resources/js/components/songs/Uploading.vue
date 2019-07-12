@@ -29,7 +29,8 @@
                     </div>
 
                     <!-- Cover (if exists) -->
-                    <div class="col-md-5">
+                    <div class="col-md-5 text-right">
+                        <span>Track</span>
                         <div v-if="image" class="image-container">
                             <img class="float-right img-thumbnail" :src="image" alt="Cover" width="200" height="200">
                         </div>

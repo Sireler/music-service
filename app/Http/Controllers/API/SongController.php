@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Artist;
 use App\Helpers\ID3Parser;
+use App\Helpers\ImageCreator;
 use App\Http\Controllers\Controller;
 use App\Song;
 use getID3;
@@ -33,10 +34,11 @@ class SongController extends Controller
      * Store a new song
      *
      * @param Request $request
+     * @param ID3Parser $parser
      * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function create(Request $request)
+    public function create(Request $request, ID3Parser $parser)
     {
         $this->validate($request, [
             'title' => 'required|max:30',
@@ -46,15 +48,38 @@ class SongController extends Controller
             'filename' => 'required'
         ]);
 
+        if (!Storage::disk('local')->exists('music/' . $request->get('filename'))) {
+            return response()->json([
+                'message' => 'Track not found'
+            ]);
+        }
+
+        // Get info
+        $parser->getTrackInfo(storage_path('app/music/' . $request->get('filename')));
+        $picture = $parser->getPicture();
+        $mime = $parser->getPictureMime();
+        $picturePath = 'music_images/' . Str::random(16);
+
+        // Store images
+        $imageCreator = new ImageCreator();
+        $cover = $imageCreator->store($picturePath, $picture, $mime);
+        $cover = asset('storage/' . $cover);
+
+        // Create models
         $artist = Artist::firstOrCreate(['name' => $request->get('artist')]);
-        $album = $artist->albums()->firstOrCreate(['name' => $request->get('album')]);
+        $album = $artist->albums()->firstOrCreate([
+            'name' => $request->get('album'),
+        ]);
+        $album->cover = $cover;
+        $album->save();
 
         $id = Str::random(32);
         $song = $album->songs()->create([
             'id' => $id,
             'title' => $request->get('title'),
             'length' => $request->get('length'),
-            'path' => 'music/' . $request->get('filename')
+            'path' => 'music/' . $request->get('filename'),
+            'cover' => $cover
         ]);
 
         return response()->json([
