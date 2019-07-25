@@ -1,0 +1,49 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./docker
+      dockerfile: nginx.docker
+    volumes:
+      - ./:/app
+    depends_on:
+      - php-fpm
+    ports:
+      - "8080:80"
+  php-fpm:
+    build:
+      context: ./docker
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./:/app
+    depends_on:
+      - mysql
+  php-cli:
+    build:
+      context: ./docker
+      dockerfile: php-cli.docker
+    volumes:
+      - ./:/app
+      - composer:/root/.composer/cache
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: music_app
+      MYSQL_USER: app
+      MYSQL_PASSWORD: secret
+    ports:
+      - "33061:3306"
+  node:
+    image: node:12.6-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+
+volumes:
+  mysql:
+  composer:
