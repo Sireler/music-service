@@ -16,6 +16,9 @@ project-install:
 	docker-compose run --rm php-cli cp .env.example .env
 	docker-compose run --rm php-cli php artisan key:generate
 
+passport-install:
+	docker-compose run --rm php-cli php artisan passport:install
+
 composer-install:
 	docker-compose run --rm php-cli composer install
 
