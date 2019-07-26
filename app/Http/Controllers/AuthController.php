@@ -21,7 +21,12 @@ class AuthController extends Controller
         $http = new Client();
 
         try {
-            $response = $http->post($request->root() . '/oauth/token', [
+            $host = $request->root();
+            if (env('USE_DOCKER') == true) {
+                $host = 'nginx';
+            }
+
+            $response = $http->post($host . '/oauth/token', [
                 'form_params' => [
                     'grant_type' => 'password',
                     'client_id' => config('services.passport.client_id'),
