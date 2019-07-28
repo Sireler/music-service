@@ -12,5 +12,3 @@
 */
 
 Route::get('/{any}', 'AppController@index')->where('any', '.*');
-
-//Route::get('/kek', 'API\SongController@song');
