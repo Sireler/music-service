@@ -1,4 +1,4 @@
-## Installation
+## Installation (Docker)
 ```
 $ make docker-build
 $ make docker-up
