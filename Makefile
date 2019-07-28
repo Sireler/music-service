@@ -19,6 +19,9 @@ project-install:
 passport-install:
 	docker-compose run --rm php-cli php artisan passport:install
 
+storage-link:
+	docker-compose run --rm php-cli php artisan storage:link
+
 composer-install:
 	docker-compose run --rm php-cli composer install
 
