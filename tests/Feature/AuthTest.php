@@ -12,11 +12,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class AuthTest extends TestCase
 {
     use WithFaker;
-    //use RefreshDatabase;
 
     public function testUserCanRegisterWithValidData()
     {
-        $response = $this->json('POST', '/api/register', [
+        $response = $this->json('POST', '/api/v1/register', [
             'name' => $this->faker->firstName(),
             'email' => $this->faker->unique()->safeEmail,
             'password' => 'SecretPass',
@@ -32,7 +31,7 @@ class AuthTest extends TestCase
             'password' => Hash::make('SecretPass')
         ]);
 
-        $response = $this->json('POST', '/api/login', [
+        $response = $this->json('POST', '/api/v1/login', [
             'username' => $user->email,
             'password' => 'SecretPass'
         ]);
@@ -49,7 +48,7 @@ class AuthTest extends TestCase
 
         $this->assertNotNull($user->tokens()->first());
 
-        $response = $this->json('POST', '/api/logout')->withHeaders([
+        $response = $this->json('POST', '/api/v1/logout')->withHeaders([
             'Authorization' => 'Bearer ' . $token
         ]);
 
