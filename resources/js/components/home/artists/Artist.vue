@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <img class="img-thumbnail rounded-circle" :src="artist.image" alt="Artist">
+                                <img class="img-thumbnail rounded-circle" :src="artist.image ? artist.image : '/storage/default-avatar.png'" alt="Artist">
                             </div>
                             <div class="col-md-8">
                                 <h4>Artist</h4>
