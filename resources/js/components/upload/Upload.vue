@@ -14,7 +14,7 @@
             </div>
         </div>
         <Uploading v-if="uploaded"
-                   @uploadEnd="uploaded = false">
+                   @uploadEnd="handleUploadEnd">
         </Uploading>
     </div>
 </template>
@@ -41,6 +41,9 @@
                 if (this.file) {
                     this.submitFile();
                 }
+            },
+            handleUploadEnd() {
+                this.uploaded = false
             },
             submitFile() {
                 let formData = new FormData();

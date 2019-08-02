@@ -64,7 +64,7 @@
             storeTrack() {
                 this.$store.dispatch('songs/storeTrack')
                     .then(response => {
-                        this.$emit('uploadEnd');
+                        this.$emit('uploadEnd', response.data);
                     });
             }
         }

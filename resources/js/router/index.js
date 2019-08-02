@@ -12,12 +12,12 @@ import Logout from '../components/auth/Logout';
 // User's home page
 import Home from '../components/Home';
 
-// Home _ childrens
+// Home _ children
 import HomeAll from '../components/home/All';
 import HomeAlbums from '../components/home/Albums';
 import HomeArtists from '../components/home/artists/Artists';
 import HomeArtist from '../components/home/artists/Artist';
-import UploadTrack from '../components/songs/Upload';
+import UploadTrack from '../components/upload/Upload';
 
 // Album
 import Album from '../components/songs/Album';
