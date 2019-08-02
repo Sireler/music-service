@@ -86,7 +86,10 @@ class SongController extends Controller
         return response()->json([
             'message' => 'Song created',
             'song' => $song,
-            'artist_created' => $artist->wasRecentlyCreated
+            'artist' => [
+                'id' => $artist->id,
+                'was_created' => $artist->wasRecentlyCreated
+            ]
         ], 201);
     }
 
