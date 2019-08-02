@@ -1,9 +1,11 @@
 <template>
-    <div class="bg-primary rounded p-2 text-light">
+    <div class="bg-primary p-1 rounded text-light">
         <div class="card">
             <img class="card-img-top" :src="album.cover" alt="Card image cap">
             <div class="card-body text-secondary">
-                <router-link :to="{ name: 'home.album', params: {id: album.id} }">{{ album.name }}</router-link>
+                <router-link :to="{ name: 'home.album', params: {id: album.id} }">
+                    {{ album.name }}
+                </router-link>
             </div>
         </div>
     </div>

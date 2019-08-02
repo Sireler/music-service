@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4"
                      v-for="album in albums">
-                    <ArtistAlbum :album="album"></ArtistAlbum>
+                    <ArtistAlbum :album="album" class="mb-4"></ArtistAlbum>
                 </div>
             </div>
         </div>
