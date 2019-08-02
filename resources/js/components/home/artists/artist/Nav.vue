@@ -17,8 +17,8 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="albums" role="tabpanel" aria-labelledby="albums-tab">
-                <div class="col-md-12">
-                    <div class="album" v-for="album in albums">
+                <div class="row">
+                    <div class="col-md-4 my-2" v-for="album in albums">
                         <Album :album="album"></Album>
                     </div>
                 </div>

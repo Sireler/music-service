@@ -67,6 +67,7 @@ class SongController extends Controller
 
         // Create models
         $artist = Artist::firstOrCreate(['name' => $request->get('artist')]);
+
         $album = $artist->albums()->firstOrCreate([
             'name' => $request->get('album'),
         ]);
@@ -79,12 +80,16 @@ class SongController extends Controller
             'title' => $request->get('title'),
             'length' => $request->get('length'),
             'path' => 'music/' . $request->get('filename'),
-            'cover' => $cover
+            'cover' => $cover,
         ]);
 
         return response()->json([
             'message' => 'Song created',
-            'song' => $song
+            'song' => $song,
+            'artist' => [
+                'id' => $artist->id,
+                'was_created' => $artist->wasRecentlyCreated
+            ]
         ], 201);
     }
 

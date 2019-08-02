@@ -51,6 +51,21 @@ const artists = {
                 .then(response => {
                     context.commit('setArtistAlbums', response.data.albums);
                 });
+        },
+        updateAvatar(context, data) {
+            return new Promise((resolve, reject) => {
+                axios.post('/artists/' + data.id + '/update/avatar', data.file, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                    .then(response => {
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
         }
     },
     getters: {

@@ -10,6 +10,18 @@ use Illuminate\Http\Request;
 class AlbumController extends Controller
 {
     /**
+     * Get all albums
+     *
+     * @return Album[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function index()
+    {
+        return response()->json([
+            'albums' => Album::all()
+        ]);
+    }
+
+    /**
      * Get an album by id
      *
      * @param int $id

@@ -4,10 +4,14 @@ axios.defaults.baseURL = window.location.origin + '/api/v1';
 const albums = {
     namespaced: true,
     state: {
+        albums: {},
         album: {},
         tracks: {}
     },
     mutations: {
+        setAlbums(state, data) {
+            state.albums = data;
+        },
         setAlbum(state, data) {
             state.album = data;
         },
@@ -16,6 +20,12 @@ const albums = {
         }
     },
     actions: {
+        getAlbums(context, id) {
+            axios.get('/albums')
+                .then(response => {
+                    context.commit('setAlbums', response.data.albums);
+                });
+        },
         getAlbum(context, id) {
             axios.get('/albums/' + id)
                 .then(response => {

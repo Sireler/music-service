@@ -6,7 +6,7 @@
                  v-for="artist in list"
                  @click="toArtist(artist.id)">
                 <div class="card artist-card">
-                    <img :src="artist.image" alt="artist" class="card-img-top">
+                    <img :src="artist.image ? artist.image : '/storage/default-avatar.png'" alt="artist" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">{{ artist.name }}</h5>
                     </div>
