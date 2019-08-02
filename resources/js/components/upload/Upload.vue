@@ -16,23 +16,27 @@
         <Uploading v-if="uploaded"
                    @uploadEnd="handleUploadEnd">
         </Uploading>
+        <AboutArtist v-if="artist.was_created" :artist="artist"></AboutArtist>
     </div>
 </template>
 
 <script>
     import UploadProgress from './UploadProgress';
     import Uploading from './Uploading';
+    import AboutArtist from "./AboutArtist";
 
     export default {
         name: "Upload",
         components: {
             UploadProgress,
-            Uploading
+            Uploading,
+            AboutArtist
         },
         data() {
             return {
                 file: null,
-                uploaded: false
+                uploaded: false,
+                artist: {}
             }
         },
         methods: {
@@ -42,8 +46,9 @@
                     this.submitFile();
                 }
             },
-            handleUploadEnd() {
-                this.uploaded = false
+            handleUploadEnd(data) {
+                this.uploaded = false;
+                this.artist = data.artist;
             },
             submitFile() {
                 let formData = new FormData();
