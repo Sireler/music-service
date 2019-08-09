@@ -30,7 +30,7 @@ class AlbumController extends Controller
     public function album(int $id)
     {
         return response()->json([
-            'album' => Album::findOrFail($id)
+            'album' => Album::with('artist')->findOrFail($id)
         ]);
     }
 

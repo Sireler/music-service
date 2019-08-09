@@ -12,4 +12,9 @@ class Album extends Model
     {
         return $this->hasMany('App\Song');
     }
+
+    public function artist()
+    {
+        return $this->belongsTo('App\Artist');
+    }
 }
