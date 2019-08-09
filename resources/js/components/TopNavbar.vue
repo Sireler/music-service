@@ -28,7 +28,12 @@
 
 <script>
     export default {
-        name: "TopNavbar"
+        name: "TopNavbar",
+        computed: {
+            loggedIn() {
+                return this.$store.getters['auth/loggedIn'];
+            }
+        }
     }
 </script>
 
