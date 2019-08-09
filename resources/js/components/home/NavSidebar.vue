@@ -49,7 +49,7 @@
     nav {
         margin-top: -100px;
         padding-top: 100px;
-        height: 100%;
+        height: 200%;
         z-index: 1;
     }
 </style>
