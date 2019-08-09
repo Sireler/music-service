@@ -46,5 +46,10 @@
 </script>
 
 <style scoped>
-
+    nav {
+        margin-top: -100px;
+        padding-top: 100px;
+        height: 100%;
+        z-index: 1;
+    }
 </style>
