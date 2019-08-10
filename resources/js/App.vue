@@ -13,6 +13,8 @@
 </template>
 
 <script>
+    import { mapActions, mapMutations, mapState } from 'vuex';
+
     import TopNavbar from "./components/TopNavbar";
 
     export default {
@@ -20,10 +22,24 @@
         components: {
             TopNavbar
         },
+        methods: {
+            ...mapActions('auth', [
+                'getCurrentUser',
+            ]),
+            ...mapMutations('auth', [
+                'destroyToken'
+            ])
+        },
         computed: {
-            loggedIn() {
-                return this.$store.getters['auth/loggedIn'];
-            }
+            ...mapState({
+                user: state => state.auth.user,
+            }),
+        },
+        mounted() {
+            this.getCurrentUser()
+                .catch(error => {
+                    this.destroyToken();
+                });
         }
     }
 </script>
