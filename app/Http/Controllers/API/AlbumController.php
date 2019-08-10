@@ -17,7 +17,7 @@ class AlbumController extends Controller
     public function index()
     {
         return response()->json([
-            'albums' => Album::all()
+            'albums' => Album::latest()->limit(20)->get()
         ]);
     }
 
@@ -27,7 +27,7 @@ class AlbumController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function album(int $id)
+    public function show(int $id)
     {
         return response()->json([
             'album' => Album::with('artist')->findOrFail($id)

@@ -18,10 +18,10 @@ class ArtistController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function all()
+    public function index()
     {
         return response()->json([
-            'artists' => Artist::all()
+            'artists' => Artist::latest()->limit(20)->get()
         ]);
     }
 
@@ -44,7 +44,7 @@ class ArtistController extends Controller
         ], 201);
     }
 
-    public function artist(Request $request, int $id)
+    public function show(Request $request, int $id)
     {
         return response()->json([
             'artist' => Artist::findOrFail($id)

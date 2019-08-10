@@ -23,10 +23,10 @@ class SongController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function all()
+    public function index()
     {
         return response()->json([
-            'songs' => Song::all()
+            'songs' => Song::latest()->limit(20)->get()
         ]);
     }
 
@@ -99,7 +99,7 @@ class SongController extends Controller
      * @param $id
      * @return BinaryFileResponse
      */
-    public function song($id)
+    public function show($id)
     {
         $song = Song::find($id);
 
