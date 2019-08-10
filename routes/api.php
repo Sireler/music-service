@@ -25,15 +25,15 @@ Route::prefix('v1')->group(function() {
 
 
     /** Song */
-    Route::get('/songs', 'API\SongController@all');
-    Route::get('/song/{id}', 'API\SongController@song');
+    Route::get('/songs', 'API\SongController@index');
+    Route::get('/song/{id}', 'API\SongController@show');
     Route::post('/song/create', 'API\SongController@create');
     Route::post('/songs/upload', 'API\SongController@upload');
 
 
     /** Artist */
-    Route::get('/artists', 'API\ArtistController@all');
-    Route::get('/artists/{id}', 'API\ArtistController@artist');
+    Route::get('/artists', 'API\ArtistController@index');
+    Route::get('/artists/{id}', 'API\ArtistController@show');
     Route::get('/artists/{id}/songs', 'API\ArtistController@songs');
     Route::get('/artists/{id}/albums', 'API\ArtistController@albums');
     Route::post('/artist/create', 'API\ArtistController@create');
@@ -41,7 +41,7 @@ Route::prefix('v1')->group(function() {
 
     /** Albums */
     Route::get('/albums', 'API\AlbumController@index');
-    Route::get('/albums/{id}', 'API\AlbumController@album');
+    Route::get('/albums/{id}', 'API\AlbumController@show');
     Route::get('/albums/{id}/tracks', 'API\AlbumController@tracks');
 });
 

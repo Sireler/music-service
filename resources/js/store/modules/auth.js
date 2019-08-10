@@ -5,6 +5,7 @@ const auth = {
     namespaced: true,
     state: {
         token: localStorage.getItem('access_token') || null,
+        user: null
     },
     getters: {
         loggedIn(state) {
@@ -18,6 +19,10 @@ const auth = {
 
         destroyToken(state) {
             state.token = null;
+        },
+
+        setCurrentUser(state, user) {
+            state.user = user;
         }
     },
     actions: {
@@ -59,7 +64,6 @@ const auth = {
         },
 
         retrieveToken(context, credentials) {
-
             return new Promise((resolve, reject) => {
                 axios.post('/login', {
                     username: credentials.username,
@@ -77,6 +81,23 @@ const auth = {
                     });
             });
         },
+
+        getCurrentUser(context, token) {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token;
+
+            return new Promise((resolve, reject) => {
+                axios.get('/user')
+                    .then(response => {
+                        const user = response.data.user;
+
+                        context.commit('setCurrentUser', user);
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        }
 
     }
 };
