@@ -14,7 +14,9 @@
                             </div>
                             <div class="offset-md-4 col-md-8 text-center">
                                 <h4>Artist</h4>
-                                <router-link :to="{ name: 'home.artists.artist', params: { id: album.artist.id} }"><h1 class="text-primary">{{ album.artist.name }}</h1></router-link>
+                                <router-link :to="{ name: 'home.artists.artist', params: { id: album.artist_id } }">
+                                    <h2>{{ artistName }}</h2>
+                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -51,7 +53,10 @@
             ...mapState({
                 album: state => state.albums.album,
                 tracks: state => state.albums.tracks
-            })
+            }),
+            artistName() {
+                return this.album.artist ? this.album.artist.name : ''
+            }
         },
         methods: {
             ...mapActions('albums', [
@@ -59,7 +64,7 @@
                 'getAlbumTracks'
             ])
         },
-        mounted() {
+        created() {
             this.getAlbum(this.id);
             this.getAlbumTracks(this.id);
         }
