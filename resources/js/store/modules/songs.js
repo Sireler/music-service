@@ -16,7 +16,7 @@ const songs = {
             state.uploadInfo = info;
         },
         updateInfo(state, info) {
-            state.uploadInfo[info.key] = info.value;
+            state.uploadInfo[info.i][info.key] = info.value;
         }
     },
     actions: {
@@ -41,20 +41,12 @@ const songs = {
                     let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                     context.commit('setProgress', percentCompleted);
                 }
-
             };
 
             return new Promise((resolve, reject) => {
                 axios.post('/songs/upload', data, options)
                     .then(response => {
-                        context.commit('setUploadInfo', {
-                            title: response.data.info.title,
-                            artist: response.data.info.artist,
-                            image: response.data.info.image,
-                            filename: response.data.info.filename,
-                            length: response.data.info.length,
-                            album: response.data.info.album
-                        });
+                        context.commit('setUploadInfo', response.data.info);
 
                         resolve(response);
                     })
@@ -66,7 +58,7 @@ const songs = {
 
         storeTrack(context) {
             return new Promise((resolve, reject) => {
-                axios.post('/song/create', context.state.uploadInfo)
+                axios.post('/song/create', { tracks: context.state.uploadInfo })
                     .then(response => {
                         context.commit('setProgress', 0);
                         context.commit('setUploadInfo', {});
