@@ -48,6 +48,11 @@ class SongController extends Controller
             'tracks.*.filename' => 'required'
         ]);
 
+        $artist = Artist::firstOrCreate(['name' => $request->tracks[0]['artist']]);
+        $album = $artist->albums()->firstOrCreate([
+            'name' => $request->tracks[0]['album'],
+        ]);
+
         foreach ($request->tracks as $i => $track) {
 
             if (!Storage::disk('local')->exists('music/' . $track['filename'])) {
@@ -67,12 +72,6 @@ class SongController extends Controller
             $cover = $imageCreator->store($picturePath, $picture, $mime);
             $cover = asset('storage/' . $cover);
 
-            // Create models
-            $artist = Artist::firstOrCreate(['name' => $track['artist']]);
-
-            $album = $artist->albums()->firstOrCreate([
-                'name' => $track['album'],
-            ]);
             $album->cover = $cover;
             $album->save();
 
@@ -88,6 +87,10 @@ class SongController extends Controller
 
         return response()->json([
             'message' => 'Song created',
+            'artist' => [
+                'id' => $artist->id,
+                'was_created' => $artist->wasRecentlyCreated
+            ]
         ], 201);
     }
 

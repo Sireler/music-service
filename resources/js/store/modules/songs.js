@@ -17,6 +17,11 @@ const songs = {
         },
         updateInfo(state, info) {
             state.uploadInfo[info.i][info.key] = info.value;
+        },
+        updateAllInfo(state, info) {
+            for (let i = 0; i < state.uploadInfo.length; i++) {
+                state.uploadInfo[i][info.key] = info.value;
+            }
         }
     },
     actions: {

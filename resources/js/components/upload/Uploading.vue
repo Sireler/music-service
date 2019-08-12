@@ -2,42 +2,10 @@
     <div class="card">
         <div class="card-body">
             <div class="uploading-info">
-                <div class="row" v-for="(trackInfo, i) in info">
-                    <!-- Track fields -->
-                    <div class="col-md-6">
-                        <div class="track-title">
-                            <label for="track">Track</label>
-                            <input id="track" class="form-control" type="text"
-                                   :value="trackInfo.title"
-                                   @input="updateInfo({ i: i, key: 'title', value: $event.target.value })">
-                        </div>
-                        <hr>
-                        <div class="track-artist">
-                            <label for="artist">Artist</label>
-                            <input id="artist" class="form-control" type="text"
-                                   :value="trackInfo.artist"
-                                   @input="updateInfo({ i: i, key: 'artist', value: $event.target.value })">
-                        </div>
-                        <hr>
-                        <div class="track-album">
-                            <label for="album">Album</label>
-                            <input id="album" class="form-control" type="text"
-                                   :value="trackInfo.album"
-                                   @input="updateInfo({ i: i, key: 'album', value: $event.target.value })">
-                        </div>
-                    </div>
 
-                    <!-- Cover (if exists) -->
-                    <div class="col-md-5 text-right">
-                        <span>Track</span>
-                        <div v-if="info[0].image" class="image-container">
-                            <img class="float-right img-thumbnail" :src="info[0].image" alt="Cover" width="200" height="200">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <hr class="bg-primary">
-                    </div>
-                </div>
+                <MultipleTracks v-if="tracksCount > 1" :info="info"></MultipleTracks>
+                <OneTrack v-else :trackInfo="info[0]"></OneTrack>
+
                 <button class="btn btn-primary my-4"
                         @click="storeTrack">Save</button>
             </div>
@@ -46,10 +14,17 @@
 </template>
 
 <script>
+    import MultipleTracks from "./info/MultipleTracks";
+    import OneTrack from "./info/OneTrack";
+
     import { mapState, mapMutations } from 'vuex';
 
     export default {
         name: "Uploading",
+        components: {
+            MultipleTracks,
+            OneTrack
+        },
         computed: {
             ...mapState({
                 info: state => state.songs.uploadInfo,
@@ -59,9 +34,6 @@
             }
         },
         methods: {
-            ...mapMutations('songs', [
-                'updateInfo'
-            ]),
             storeTrack() {
                 this.$store.dispatch('songs/storeTrack')
                     .then(response => {
