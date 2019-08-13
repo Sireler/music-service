@@ -9,13 +9,13 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'home.all' }" exact-active-class="active">
+                    <router-link class="nav-link" :to="{ name: 'home.all' }" active-class="active">
                         <span class="oi oi-musical-note"></span>
                         All songs
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'home.albums' }" exact-active-class="active">
+                    <router-link class="nav-link" :to="{ name: 'home.albums' }" active-class="active">
                         <span class="oi oi-media-play"></span>
                         Albums
                     </router-link>
@@ -28,7 +28,7 @@
                 </li>
                 <hr>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{ name: 'home.upload' }" exact-active-class="active">
+                    <router-link class="nav-link" :to="{ name: 'home.upload' }" active-class="active">
                         <span class="oi oi-data-transfer-upload"></span>
                         Upload
                     </router-link>
