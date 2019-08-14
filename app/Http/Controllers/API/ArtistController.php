@@ -20,9 +20,7 @@ class ArtistController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'artists' => Artist::latest()->limit(20)->get()
-        ]);
+        return Artist::latest()->paginate(16);
     }
 
     /**
