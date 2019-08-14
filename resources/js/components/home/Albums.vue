@@ -1,8 +1,8 @@
 <template>
     <div class="albums">
-        <h2>Albums</h2>
-        <div class="container">
 
+        <div class="container">
+            <h2>Albums</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-4"
                      v-for="album in albums"
@@ -30,7 +30,7 @@
     import ArtistAlbum from "../songs/ArtistAlbum";
     import PageNavigation from "../navigation/PageNavigation";
 
-    import { mapState, mapActions, mapGetters } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         name: "Albums",
@@ -80,17 +80,5 @@
 </script>
 
 <style scoped>
-    .list-complete-item {
-        transition: all 1s;
-        display: inline-block;
-        margin-right: 10px;
-    }
-    .list-complete-enter, .list-complete-leave-to
-        /* .list-complete-leave-active до версии 2.1.8 */ {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    .list-complete-leave-active {
-        position: absolute;
-    }
+
 </style>
