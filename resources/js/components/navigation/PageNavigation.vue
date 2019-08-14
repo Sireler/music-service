@@ -30,7 +30,7 @@
                 const current = parseInt(this.current);
                 const last = parseInt(this.last);
 
-                return current > last || current < 1;
+                return current > last || current < 1 || !current || !last;
             }
         },
         methods: {
