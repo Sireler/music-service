@@ -15,7 +15,7 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Search -->
-                    <li class="nav-item mx-4">
+                    <li v-if="loggedIn" class="nav-item mx-4">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" v-model="searchText">
                             <div class="input-group-append">
