@@ -14,6 +14,18 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    <!-- Search -->
+                    <li class="nav-item mx-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" v-model="searchText">
+                            <div class="input-group-append">
+                                <button class="btn btn-light" type="button"
+                                        @click="search">
+                                    <span class="oi oi-magnifying-glass text-primary"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
                     <li v-if="!loggedIn" class="nav-item">
                         <router-link class="text-white" :to="{ name: 'login' }">Login</router-link>
                     </li>
@@ -29,9 +41,19 @@
 <script>
     export default {
         name: "TopNavbar",
+        data() {
+            return {
+                searchText: ''
+            }
+        },
         computed: {
             loggedIn() {
                 return this.$store.getters['auth/loggedIn'];
+            }
+        },
+        methods: {
+            search() {
+                this.$router.push({ name: 'home.search', query: { q: this.searchText } })
             }
         }
     }

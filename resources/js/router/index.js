@@ -22,6 +22,9 @@ import UploadTrack from '../components/upload/Upload';
 // Album
 import Album from '../components/songs/Album';
 
+//Search
+import Search from '../components/home/search/Search';
+
 Vue.use(Router);
 
 const router = new Router({
@@ -70,6 +73,12 @@ const router = new Router({
                     name: 'home.upload',
                     path: 'upload',
                     component: UploadTrack
+                },
+
+                {
+                    name: 'home.search',
+                    path: 'search',
+                    component: Search
                 }
             ]
         },
