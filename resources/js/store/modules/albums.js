@@ -6,7 +6,8 @@ const albums = {
     state: {
         albums: {},
         album: {},
-        tracks: {}
+        tracks: {},
+        pageData: {}
     },
     mutations: {
         setAlbums(state, data) {
@@ -17,13 +18,17 @@ const albums = {
         },
         setAlbumTracks(state, data) {
             state.tracks = data;
+        },
+        setPageData(state, data) {
+            state.pageData = data;
         }
     },
     actions: {
-        getAlbums(context, id) {
-            axios.get('/albums')
+        getAlbums(context, page) {
+            axios.get('/albums?page=' + page)
                 .then(response => {
-                    context.commit('setAlbums', response.data.albums);
+                    context.commit('setAlbums', response.data.data);
+                    context.commit('setPageData', response.data);
                 });
         },
         getAlbum(context, id) {
@@ -39,9 +44,6 @@ const albums = {
                 });
         }
     },
-    getters: {
-
-    }
 };
 
 export default albums;

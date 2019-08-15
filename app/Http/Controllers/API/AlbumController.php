@@ -16,9 +16,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'albums' => Album::latest()->limit(20)->get()
-        ]);
+        return Album::latest()->paginate(16);
     }
 
     /**

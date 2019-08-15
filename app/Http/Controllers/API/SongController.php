@@ -41,51 +41,52 @@ class SongController extends Controller
     public function create(Request $request, ID3Parser $parser)
     {
         $this->validate($request, [
-            'title' => 'required|max:30',
-            'artist' => 'required|max:30',
-            'album' => 'required|max:30',
-            'length' => 'required',
-            'filename' => 'required'
+            'tracks.*.title' => 'required|max:30',
+            'tracks.*.artist' => 'required|max:30',
+            'tracks.*.album' => 'required|max:30',
+            'tracks.*.length' => 'required',
+            'tracks.*.filename' => 'required'
         ]);
 
-        if (!Storage::disk('local')->exists('music/' . $request->get('filename'))) {
-            return response()->json([
-                'message' => 'Track not found'
+        $artist = Artist::firstOrCreate(['name' => $request->tracks[0]['artist']]);
+        $album = $artist->albums()->firstOrCreate([
+            'name' => $request->tracks[0]['album'],
+        ]);
+
+        foreach ($request->tracks as $i => $track) {
+
+            if (!Storage::disk('local')->exists('music/' . $track['filename'])) {
+                return response()->json([
+                    'message' => 'Track not found'
+                ]);
+            }
+
+            // Get info
+            $parser->getTrackInfo(storage_path('app/music/' . $track['filename']));
+            $picture = $parser->getPicture();
+            $mime = $parser->getPictureMime();
+            $picturePath = 'music_images/' . Str::random(16);
+
+            // Store images
+            $imageCreator = new ImageCreator();
+            $cover = $imageCreator->store($picturePath, $picture, $mime);
+            $cover = asset('storage/' . $cover);
+
+            $album->cover = $cover;
+            $album->save();
+
+            $id = Str::random(32);
+            $song = $album->songs()->create([
+                'id' => $id,
+                'title' => $track['title'],
+                'length' => $track['length'],
+                'path' => 'music/' . $track['filename'],
+                'cover' => $cover,
             ]);
         }
 
-        // Get info
-        $parser->getTrackInfo(storage_path('app/music/' . $request->get('filename')));
-        $picture = $parser->getPicture();
-        $mime = $parser->getPictureMime();
-        $picturePath = 'music_images/' . Str::random(16);
-
-        // Store images
-        $imageCreator = new ImageCreator();
-        $cover = $imageCreator->store($picturePath, $picture, $mime);
-        $cover = asset('storage/' . $cover);
-
-        // Create models
-        $artist = Artist::firstOrCreate(['name' => $request->get('artist')]);
-
-        $album = $artist->albums()->firstOrCreate([
-            'name' => $request->get('album'),
-        ]);
-        $album->cover = $cover;
-        $album->save();
-
-        $id = Str::random(32);
-        $song = $album->songs()->create([
-            'id' => $id,
-            'title' => $request->get('title'),
-            'length' => $request->get('length'),
-            'path' => 'music/' . $request->get('filename'),
-            'cover' => $cover,
-        ]);
-
         return response()->json([
             'message' => 'Song created',
-            'song' => $song,
             'artist' => [
                 'id' => $artist->id,
                 'was_created' => $artist->wasRecentlyCreated
@@ -126,24 +127,20 @@ class SongController extends Controller
     public function upload(Request $request, ID3Parser $parser)
     {
         $this->validate($request, [
-            'track' => 'required'
+            'track.*' => 'required|mimetypes:audio/mpeg'
         ]);
 
-        if (!$request->hasFile('track')) {
-            return response()->json(['message' => 'Upload error']);
+        $info = [];
+        foreach ($request->track as $i => $track) {
+            $fileHash = str_replace('.' . $track->extension(), '', $track->hashName());
+            $fileName = $fileHash . '.' . $track->getClientOriginalExtension();
+
+            $path = $track->storeAs('music', $fileName);
+
+            $infoPath = storage_path('app/' . $path);
+
+            $info[$i] = $parser->getTrackInfo($infoPath);
         }
-
-        $file = $request->file('track');
-
-        $fileHash = str_replace('.' . $file->extension(), '', $file->hashName());
-        $fileName = $fileHash . '.' . $file->getClientOriginalExtension();
-
-        $path = $file->storeAs('music', $fileName);
-
-
-        $infoPath = storage_path('app/' . $path);
-
-        $info = $parser->getTrackInfo($infoPath);
 
         return response()->json([
             'message' => 'Uploaded',

@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <div class="custom-file mb-2">
                         <input type="file" class="custom-file-input" id="customFileInput" required
-                               @change="handleUpload" ref="file">
+                               @change="handleUpload" multiple ref="file">
                         <label class="custom-file-label" for="customFileInput">Choose files to upload</label>
                     </div>
                 </div>
@@ -34,15 +34,16 @@
         },
         data() {
             return {
-                file: null,
+                files: null,
                 uploaded: false,
                 artist: {}
             }
         },
         methods: {
             handleUpload() {
-                this.file = this.$refs.file.files[0];
-                if (this.file) {
+                this.files = this.$refs.file.files;
+
+                if (this.files) {
                     this.submitFile();
                 }
             },
@@ -53,7 +54,9 @@
             submitFile() {
                 let formData = new FormData();
 
-                formData.append('track', this.file);
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append('track[]', this.files[i]);
+                }
 
                 this.$store.dispatch('songs/upload', formData)
                     .then(response => {

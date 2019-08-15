@@ -1,39 +1,80 @@
 <template>
     <div class="albums">
-        <h2>Albums</h2>
+
         <div class="container">
+            <h2>Albums</h2>
             <div class="row">
                 <div class="col-lg-3 col-md-4"
-                     v-for="album in albums">
+                     v-for="album in albums"
+                     v-bind:key="album.id">
                     <ArtistAlbum :album="album" class="mb-4"></ArtistAlbum>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="pagination">
+                    <div class="col-md-12">
+                        <PageNavigation :current="currentPage"
+                                        :last="lastPage"
+                                        @nextPage="nextPage"
+                                        @prevPage="prevPage"></PageNavigation>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
     import ArtistAlbum from "../songs/ArtistAlbum";
+    import PageNavigation from "../navigation/PageNavigation";
 
     import { mapState, mapActions } from 'vuex';
 
     export default {
         name: "Albums",
         components: {
-            ArtistAlbum
+            ArtistAlbum,
+            PageNavigation
+        },
+        data() {
+            return {
+                currentPage: this.$route.query.page || 1
+            }
         },
         computed: {
             ...mapState({
                 albums: state => state.albums.albums,
-            })
+                lastPage: state => state.albums.pageData.last_page
+            }),
         },
         methods: {
             ...mapActions('albums', [
-                'getAlbums'
-            ])
+                'getAlbums',
+            ]),
+            nextPage() {
+                this.currentPage++;
+
+                this.$router.push({
+                    name: 'home.albums', query: { page: this.currentPage }
+                });
+            },
+            prevPage() {
+                this.currentPage--;
+
+                this.$router.push({
+                    name: 'home.albums', query: { page: this.currentPage }
+                });
+            }
+        },
+        watch: {
+            currentPage(page) {
+                this.getAlbums(page);
+            }
         },
         mounted() {
-            this.getAlbums();
+            this.getAlbums(this.currentPage);
         }
     }
 </script>

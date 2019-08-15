@@ -7,7 +7,8 @@ const artists = {
         list: [],
         artist: {},
         artistSongs: {},
-        artistAlbums: {}
+        artistAlbums: {},
+        pageData: {},
     },
     mutations: {
         setAll(state, data) {
@@ -25,13 +26,17 @@ const artists = {
         },
         setArtistAlbums(state, data) {
             state.artistAlbums = data;
+        },
+        setPageData(state, data) {
+            state.pageData = data;
         }
     },
     actions: {
-        getAll(context) {
-            axios.get('/artists')
+        getAll(context, page) {
+            axios.get('/artists?page=' + page)
                 .then(response => {
-                    context.commit('setAll', response.data.artists);
+                    context.commit('setAll', response.data.data);
+                    context.commit('setPageData', response.data);
                 });
         },
         get(context, id) {
