@@ -43,5 +43,8 @@ Route::prefix('v1')->group(function() {
     Route::get('/albums', 'API\AlbumController@index');
     Route::get('/albums/{id}', 'API\AlbumController@show');
     Route::get('/albums/{id}/tracks', 'API\AlbumController@tracks');
+
+    /** Search */
+    Route::get('/search', 'API\SearchController@search');
 });
 
