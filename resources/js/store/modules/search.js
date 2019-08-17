@@ -5,7 +5,9 @@ const search = {
     namespaced: true,
     state: {
         tracks: {},
-        tracksCount: 0
+        albums: {},
+        tracksCount: 0,
+        albumsCount: 0
     },
     mutations: {
         setTracks(state, data) {
@@ -13,6 +15,12 @@ const search = {
         },
         setTracksCount(state, count) {
             state.tracksCount = count;
+        },
+        setAlbums(state, data) {
+            state.albums = data;
+        },
+        setAlbumsCount(state, count) {
+            state.albumsCount = count;
         }
     },
     actions: {
@@ -21,6 +29,9 @@ const search = {
                 .then(response => {
                      context.commit('setTracks', response.data.tracks);
                      context.commit('setTracksCount', response.data.tracks_count);
+
+                     context.commit('setAlbums', response.data.albums);
+                     context.commit('setAlbumsCount', response.data.albums_count);
                 });
         }
     },
