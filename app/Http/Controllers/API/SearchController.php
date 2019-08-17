@@ -10,12 +10,22 @@ class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $query = $request->q;
+        if (empty($request->q)) {
+            return response()->json('Nothing found');
+        }
 
-        $songs = Song::where('title', 'like', '%' . $query . '%')->get();
+        $query = $request->q;
+        $queryParts = explode(' ', $query);
+
+        $queryPart = array_shift($queryParts);
+        $songs = Song::where('title', 'like', "%{$queryPart}%");
+
+        foreach ($queryParts as $queryPart) {
+            $songs->orWhere('title', 'like', "%{$queryPart}%");
+        }
 
         return response()->json([
-            'tracks' => $songs
+            'tracks' => $songs->get()
         ]);
     }
 }
