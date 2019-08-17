@@ -25,7 +25,8 @@ class SearchController extends Controller
         }
 
         return response()->json([
-            'tracks' => $songs->get()
+            'tracks' => $songs->limit(10)->get(),
+            'tracks_count' => $songs->count(),
         ]);
     }
 }
