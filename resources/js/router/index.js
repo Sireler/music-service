@@ -13,7 +13,7 @@ import Logout from '../components/auth/Logout';
 import Home from '../components/Home';
 
 // Home _ children
-import HomeAll from '../components/home/All';
+import HomeReleases from '../components/home/Releases';
 import HomeAlbums from '../components/home/Albums';
 import HomeArtists from '../components/home/artists/Artists';
 import HomeArtist from '../components/home/artists/Artist';
@@ -46,7 +46,7 @@ const router = new Router({
                 {
                     name: 'home.all',
                     path: 'all',
-                    component: HomeAll
+                    component: HomeReleases
                 },
                 {
                     name: 'home.albums',
