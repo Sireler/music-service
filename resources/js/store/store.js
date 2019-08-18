@@ -7,6 +7,7 @@ import songs from './modules/songs';
 import player from './modules/player';
 import artists from './modules/artists';
 import albums from './modules/albums';
+import search from "./modules/search";
 
 Vue.use(Vuex);
 axios.defaults.baseURL = window.location.origin + '/api/v1';
@@ -17,7 +18,8 @@ export const store = new Vuex.Store({
         player,
         songs,
         artists,
-        albums
+        albums,
+        search
     },
     strict: process.env.NODE_ENV !== 'production'
 });
