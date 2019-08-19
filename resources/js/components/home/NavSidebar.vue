@@ -1,8 +1,11 @@
 <template>
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar position-fixed border-primary border-right">
-        <div class="sidebar-sticky">
-            <ul class="nav nav-pills flex-column pt-2">
-                <li class="nav-item active">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">
                     <router-link class="nav-link" :to="{ name: 'home' }" exact-active-class="active">
                         <span class="oi oi-home"></span>
                         Home
@@ -11,7 +14,7 @@
                 <li class="nav-item">
                     <router-link class="nav-link" :to="{ name: 'home.all' }" active-class="active">
                         <span class="oi oi-musical-note"></span>
-                        All songs
+                        Releases
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -26,14 +29,12 @@
                         Artists
                     </router-link>
                 </li>
-                <hr>
                 <li class="nav-item">
                     <router-link class="nav-link" :to="{ name: 'home.upload' }" active-class="active">
                         <span class="oi oi-data-transfer-upload"></span>
                         Upload
                     </router-link>
                 </li>
-
             </ul>
         </div>
     </nav>
@@ -45,11 +46,10 @@
     }
 </script>
 
-<style scoped>
-    nav {
-        margin-top: -100px;
-        padding-top: 100px;
-        height: 200%;
-        z-index: 1;
+<style lang="scss" scoped>
+    @import '../../../sass/variables';
+
+    .active {
+        color: $primary !important;
     }
 </style>

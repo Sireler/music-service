@@ -2,13 +2,18 @@
     <div class="home-container">
         <div class="container-fluid">
             <div class="row">
-                <!-- Left sidebar -->
-                <NavSidebar></NavSidebar>
 
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2 text-info">Home</h1>
+                <main role="main" class="col-md-12 col-lg-10 offset-lg-1 px-4">
+                    <!-- Left sidebar -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <NavSidebar class="my-4 text-secondary border-primary border"></NavSidebar>
+                            </div>
+                        </div>
                     </div>
+
+
 
                     <router-view class="text-secondary"></router-view>
 
