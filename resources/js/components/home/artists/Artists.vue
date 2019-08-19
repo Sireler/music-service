@@ -5,14 +5,7 @@
             <div class="col-lg-3 col-md-4 mb-4 artist-container"
                  v-for="artist in artists"
                  v-bind:key="artist.id">
-                <div class="card artist-card">
-                    <img :src="artist.image ? artist.image : '/storage/default-avatar.png'" alt="artist" class="card-img-top">
-                    <div class="card-body">
-                        <router-link :to="{ name: 'home.artists.artist', params: { id: artist.id } }">
-                            {{ artist.name }}
-                        </router-link>
-                    </div>
-                </div>
+                    <ArtistCard :artist="artist"></ArtistCard>
             </div>
         </div>
 
@@ -29,6 +22,7 @@
     </div>
 </template>
 <script>
+    import ArtistCard from "./ArtistCard";
     import PageNavigation from "../../navigation/PageNavigation";
 
     import { mapState, mapActions } from 'vuex';
@@ -36,6 +30,7 @@
     export default {
         name: "Artists",
         components: {
+            ArtistCard,
             PageNavigation
         },
         data() {

@@ -1,12 +1,18 @@
 <template>
-    <div class="all">
+    <div class="releases">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <h2>Popular tracks</h2>
-                    <div class="list-songs">
-                        <div class="item-song" v-for="song in songs">
-                            <Track :track="song"></Track>
+                <div class="col-md-12">
+                    <h2>Releases</h2>
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="list-songs-item col-md-8">
+                                <div class="item-song" v-for="song in songs">
+                                    <Track :track="song"></Track>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -19,7 +25,7 @@
     import Track from '../songs/Track';
 
     export default {
-        name: "All",
+        name: "Releases",
         components: {
             Track
         },
