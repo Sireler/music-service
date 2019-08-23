@@ -46,5 +46,7 @@ Route::prefix('v1')->group(function() {
 
     /** Search */
     Route::get('/search', 'API\SearchController@search');
+
+    Route::get('/main', 'API\AlbumController@main');
 });
 

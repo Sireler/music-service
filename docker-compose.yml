@@ -19,6 +19,7 @@ services:
       - ./docker:/usr/local/etc/php/conf.d
     depends_on:
       - mysql
+      - redis
   php-cli:
     build:
       context: ./docker
@@ -28,6 +29,7 @@ services:
       - composer:/root/.composer/cache
     depends_on:
       - mysql
+      - redis
   mysql:
     image: mysql:5.7
     volumes:
@@ -44,7 +46,12 @@ services:
     volumes:
       - ./:/app
     working_dir: /app
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - redis:/data
 
 volumes:
   mysql:
+  redis:
   composer:

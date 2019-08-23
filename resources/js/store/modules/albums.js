@@ -7,7 +7,8 @@ const albums = {
         albums: {},
         album: {},
         tracks: {},
-        pageData: {}
+        pageData: {},
+        mainAlbums: {},
     },
     mutations: {
         setAlbums(state, data) {
@@ -21,6 +22,9 @@ const albums = {
         },
         setPageData(state, data) {
             state.pageData = data;
+        },
+        setMainAlbums(state, data) {
+            state.mainAlbums = data;
         }
     },
     actions: {
@@ -41,6 +45,12 @@ const albums = {
             axios.get('/albums/' + id + '/tracks')
                 .then(response => {
                     context.commit('setAlbumTracks', response.data.tracks);
+                });
+        },
+        getMainAlbums(context) {
+            axios.get('/main')
+                .then(response => {
+                    context.commit('setMainAlbums', response.data.albums);
                 });
         }
     },
