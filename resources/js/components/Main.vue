@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-12 my-5 py-5 bg-primary">
+            <div class="col-md-12 my-2 mt-5 py-5 bg-primary">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card bg-primary border-light">
@@ -16,11 +16,15 @@
                 </div>
             </div>
         </div>
+        <hr class="bg-primary">
         <div class="row mb-4">
-            <div class="col-md-12 mt-5 py-5 bg-white text-secondary">
+            <div class="col-md-12 mt-2 py-3 bg-white text-secondary">
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <h3>Listen to good music</h3>
+                        <div class="main-albums-header">
+                            <h2 class="display-4">Listen to good music</h2>
+                            <h3 class="text-left text-primary">Top albums</h3>
+                        </div>
                         <div class="main-albums row">
                             <div class="main-albums-item col-md-3 col-sm-6 mb-4" v-for="album in albums">
                                 <ArtistAlbum :album="album"></ArtistAlbum>

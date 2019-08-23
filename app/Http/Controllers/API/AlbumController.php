@@ -48,14 +48,14 @@ class AlbumController extends Controller
 
     /**
      * Main page
-     * Get albums from the cache
+     * Get latest albums from the cache
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function main()
     {
         $albums = Cache::remember('albums', 3600, function () {
-            return Album::limit(8)->get();
+            return Album::limit(8)->latest()->get();
         });
 
         return response()->json([
