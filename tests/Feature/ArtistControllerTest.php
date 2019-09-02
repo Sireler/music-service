@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 
-class ArtistTest extends TestCase
+class ArtistControllerTest extends TestCase
 {
     use WithFaker;
 
-    public function testCreateAction()
+    /**
+     * ArtistController.create
+     */
+    public function testCreateAction(): void
     {
         $response = $this->json('POST', '/api/v1/artists/create', [
             'name' => $this->faker->name
@@ -24,7 +27,10 @@ class ArtistTest extends TestCase
             ])->assertStatus(201);
     }
 
-    public function testShowAction()
+    /**
+     * ArtistController.show
+     */
+    public function testShowAction(): void
     {
         $artist = factory(Artist::class)->create();
 
@@ -35,7 +41,10 @@ class ArtistTest extends TestCase
         ]);
     }
 
-    public function testUpdateAvatarAction()
+    /**
+     * ArtistController.updateAvatar
+     */
+    public function testUpdateAvatarAction(): void
     {
         $artist = factory(Artist::class)->create();
         Storage::fake('public');

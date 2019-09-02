@@ -6,7 +6,7 @@ use App\Album;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class AlbumTest extends TestCase
+class AlbumControllerTest extends TestCase
 {
     /**
      * AlbumController.show
