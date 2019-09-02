@@ -42,14 +42,26 @@ class ArtistController extends Controller
         ], 201);
     }
 
-    public function show(Request $request, int $id)
+    /**
+     * Show an artist
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(int $id)
     {
         return response()->json([
             'artist' => Artist::findOrFail($id)
         ]);
     }
 
-    public function songs(Request $request, int $id)
+    /**
+     * Get artist's tracks
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function songs(int $id)
     {
         $songs = Song::whereIn('album_id', function($query) use ($id) {
             $query->select('id')->from('albums')->where('artist_id', $id);
@@ -60,9 +72,15 @@ class ArtistController extends Controller
         ]);
     }
 
-    public function albums(Request $request, int $id)
+    /**
+     * Get artist's albums
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function albums(int $id)
     {
-        $albums = Album::where('artist_id', $id)->get();
+        $albums = Artist::findOrFail($id)->albums;
 
         return response()->json([
             'albums' => $albums

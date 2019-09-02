@@ -25,20 +25,6 @@ class AuthTest extends TestCase
         $response->assertStatus(201);
     }
 
-    public function testUserCanLoginWithCorrectCredentials()
-    {
-        $user = factory(User::class)->create([
-            'password' => Hash::make('SecretPass')
-        ]);
-
-        $response = $this->json('POST', '/api/v1/login', [
-            'username' => $user->email,
-            'password' => 'SecretPass'
-        ]);
-
-        $response->assertStatus(200);
-    }
-
     public function testAuthenticatedUserCanLogout()
     {
         $user = factory(User::class)->create();

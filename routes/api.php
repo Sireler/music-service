@@ -36,7 +36,7 @@ Route::prefix('v1')->group(function() {
     Route::get('/artists/{id}', 'API\ArtistController@show');
     Route::get('/artists/{id}/songs', 'API\ArtistController@songs');
     Route::get('/artists/{id}/albums', 'API\ArtistController@albums');
-    Route::post('/artist/create', 'API\ArtistController@create');
+    Route::post('/artists/create', 'API\ArtistController@create');
     Route::post('/artists/{id}/update/avatar', 'API\ArtistController@updateAvatar');
 
     /** Albums */
@@ -46,5 +46,7 @@ Route::prefix('v1')->group(function() {
 
     /** Search */
     Route::get('/search', 'API\SearchController@search');
+
+    Route::get('/main', 'API\AlbumController@main');
 });
 
