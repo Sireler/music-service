@@ -7,11 +7,7 @@ use App\Helpers\ID3Parser;
 use App\Helpers\ImageCreator;
 use App\Http\Controllers\Controller;
 use App\Song;
-use getID3;
-use getid3_lib;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -117,7 +113,7 @@ class SongController extends Controller
     }
 
     /**
-     * Upload a track and get id3 data to store in db
+     * Upload tracks and return the ID3 data
      *
      * @param Request $request
      * @param ID3Parser $parser
