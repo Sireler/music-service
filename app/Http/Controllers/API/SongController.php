@@ -11,15 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SongController extends Controller
 {
     /**
      * Get all songs
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json([
             'songs' => Song::latest()->limit(20)->get()
@@ -31,10 +32,10 @@ class SongController extends Controller
      *
      * @param Request $request
      * @param ID3Parser $parser
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function create(Request $request, ID3Parser $parser)
+    public function create(Request $request, ID3Parser $parser): JsonResponse
     {
         $this->validate($request, [
             'tracks.*.title' => 'required|max:30',
@@ -93,10 +94,10 @@ class SongController extends Controller
     /**
      * Send the song file to the user
      *
-     * @param $id
-     * @return BinaryFileResponse
+     * @param string $id
+     * @return BinaryFileResponse|JsonResponse
      */
-    public function show($id)
+    public function show(string $id)
     {
         $song = Song::find($id);
 
@@ -117,10 +118,10 @@ class SongController extends Controller
      *
      * @param Request $request
      * @param ID3Parser $parser
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function upload(Request $request, ID3Parser $parser)
+    public function upload(Request $request, ID3Parser $parser): JsonResponse
     {
         $this->validate($request, [
             'track.*' => 'required|mimetypes:audio/mpeg'
