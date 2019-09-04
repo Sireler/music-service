@@ -21,12 +21,6 @@ const artists = {
             state.artist = {};
             state.artistSongs = {};
         },
-        setArtistSongs(state, data) {
-            state.artistSongs = data;
-        },
-        setArtistAlbums(state, data) {
-            state.artistAlbums = data;
-        },
         setPageData(state, data) {
             state.pageData = data;
         }
@@ -43,18 +37,6 @@ const artists = {
             axios.get('/artists/' + id)
                 .then(response => {
                     context.commit('set', response.data.artist);
-                });
-        },
-        getArtistSongs(context, id) {
-            axios.get('/artists/' + id + '/songs')
-                .then(response => {
-                    context.commit('setArtistSongs', response.data.songs);
-                });
-        },
-        getArtistAlbums(context, id) {
-            axios.get('/artists/' + id + '/albums')
-                .then(response => {
-                    context.commit('setArtistAlbums', response.data.albums);
                 });
         },
         updateAvatar(context, data) {
