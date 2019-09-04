@@ -34,8 +34,6 @@ Route::prefix('v1')->group(function() {
     /** Artist */
     Route::get('/artists', 'API\ArtistController@index');
     Route::get('/artists/{id}', 'API\ArtistController@show');
-    Route::get('/artists/{id}/songs', 'API\ArtistController@songs');
-    Route::get('/artists/{id}/albums', 'API\ArtistController@albums');
     Route::post('/artists/create', 'API\ArtistController@create');
     Route::post('/artists/{id}/update/avatar', 'API\ArtistController@updateAvatar');
 
