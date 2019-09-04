@@ -12,4 +12,9 @@ class Artist extends Model
     {
         return $this->hasMany('App\Album');
     }
+
+    public function songs()
+    {
+        return $this->hasManyThrough('App\Song', 'App\Album');
+    }
 }

@@ -41,8 +41,6 @@
         methods: {
             ...mapActions('artists', [
                 'get',
-                'getArtistSongs',
-                'getArtistAlbums'
             ]),
             ...mapMutations('artists', [
                 'clearArtist'
@@ -51,8 +49,8 @@
         computed: {
             ...mapState({
                 artist: state => state.artists.artist,
-                songs: state => state.artists.artistSongs,
-                albums: state => state.artists.artistAlbums
+                songs: state => state.artists.artist.songs,
+                albums: state => state.artists.artist.albums
             }),
             id() {
                 return this.$route.params.id;
@@ -63,8 +61,6 @@
             this.clearArtist();
 
             this.get(this.id);
-            this.getArtistSongs(this.id);
-            this.getArtistAlbums(this.id);
         }
     }
 </script>

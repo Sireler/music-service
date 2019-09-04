@@ -51,39 +51,7 @@ class ArtistController extends Controller
     public function show(int $id)
     {
         return response()->json([
-            'artist' => Artist::findOrFail($id)
-        ]);
-    }
-
-    /**
-     * Get artist's tracks
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function songs(int $id)
-    {
-        $songs = Song::whereIn('album_id', function($query) use ($id) {
-            $query->select('id')->from('albums')->where('artist_id', $id);
-        })->get();
-
-        return response()->json([
-            'songs' => $songs
-        ]);
-    }
-
-    /**
-     * Get artist's albums
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function albums(int $id)
-    {
-        $albums = Artist::findOrFail($id)->albums;
-
-        return response()->json([
-            'albums' => $albums
+            'artist' => Artist::with('albums', 'songs')->findOrFail($id)
         ]);
     }
 
