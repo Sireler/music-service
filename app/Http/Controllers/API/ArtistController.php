@@ -51,7 +51,7 @@ class ArtistController extends Controller
     public function show(int $id)
     {
         return response()->json([
-            'artist' => Artist::findOrFail($id)
+            'artist' => Artist::with('albums', 'songs')->findOrFail($id)
         ]);
     }
 
