@@ -20,12 +20,17 @@ class ID3Parser
      *
      * @param $path
      * @return array
+     * @throws \Exception
      */
     public function getTrackInfo($path)
     {
+        if (!file_exists($path)) {
+            throw new \Exception('File not found');
+        }
+
         $info = $this->getID3->analyze($path);
-        $this->info = $info;
         getid3_lib::CopyTagsToComments($info);
+        $this->info = $info;
 
         $filename = $info['filename'] ?? '';
         $title = $info['comments']['title'][0] ?? '';
