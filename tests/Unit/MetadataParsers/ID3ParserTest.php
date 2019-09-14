@@ -25,7 +25,7 @@ class ID3ParserTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $this->ID3Parser->getTrackInfo('/filenotfoundexception.mp3');
+        $this->ID3Parser->loadTrackInfo('/filenotfoundexception.mp3');
     }
 
     /**
@@ -33,7 +33,8 @@ class ID3ParserTest extends TestCase
      */
     public function testGetTrackInfo()
     {
-        $info = $this->ID3Parser->getTrackInfo('/app/tests/tracks/blank_tags.mp3');
+        $this->ID3Parser->loadTrackInfo('/app/tests/tracks/blank_tags.mp3');
+        $info = $this->ID3Parser->getTrackInfo();
 
         $this->assertEquals('blank_tags.mp3', $info['filename']);
         $this->assertEquals('TestTitle', $info['title']);
@@ -46,7 +47,7 @@ class ID3ParserTest extends TestCase
      */
     public function testGetPictureMime()
     {
-        $this->ID3Parser->getTrackInfo('/app/tests/tracks/track.mp3');
+        $this->ID3Parser->loadTrackInfo('/app/tests/tracks/track.mp3');
 
         $this->assertEquals('image/jpeg', $this->ID3Parser->getPictureMime());
     }

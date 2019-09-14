@@ -7,6 +7,7 @@ use App\Helpers\MetadataParsers\ID3Parser;
 use App\Helpers\ImageCreator;
 use App\Http\Controllers\Controller;
 use App\Song;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -51,39 +52,38 @@ class SongController extends Controller
         ]);
 
         foreach ($request->tracks as $i => $track) {
+            // Process the file
+            try {
+                $parser->loadTrackInfo(storage_path('app/music/' . $track['filename']));
 
-            if (!Storage::disk('local')->exists('music/' . $track['filename'])) {
+                $coverInfo = $parser->getCoverInfo();
+                $picturePath = 'music_images/' . Str::random(16);
+
+                // Store images
+                $imageCreator = new ImageCreator();
+                $cover = $imageCreator->store($picturePath, $coverInfo['picture'], $coverInfo['mime']);
+                $cover = asset('storage/' . $cover);
+
+                $album->cover = $cover;
+                $album->save();
+
+                $id = Str::random(32);
+                $song = $album->songs()->create([
+                    'id' => $id,
+                    'title' => $track['title'],
+                    'length' => $track['length'],
+                    'path' => 'music/' . $track['filename'],
+                    'cover' => $cover,
+                ]);
+            } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Track not found'
+                    'message' => 'Cannot process the file'
                 ]);
             }
-
-            // Get info
-            $parser->getTrackInfo(storage_path('app/music/' . $track['filename']));
-            $picture = $parser->getPicture();
-            $mime = $parser->getPictureMime();
-            $picturePath = 'music_images/' . Str::random(16);
-
-            // Store images
-            $imageCreator = new ImageCreator();
-            $cover = $imageCreator->store($picturePath, $picture, $mime);
-            $cover = asset('storage/' . $cover);
-
-            $album->cover = $cover;
-            $album->save();
-
-            $id = Str::random(32);
-            $song = $album->songs()->create([
-                'id' => $id,
-                'title' => $track['title'],
-                'length' => $track['length'],
-                'path' => 'music/' . $track['filename'],
-                'cover' => $cover,
-            ]);
         }
 
         return response()->json([
-            'message' => 'Song created',
+            'message' => 'Created',
             'artist' => [
                 'id' => $artist->id,
                 'was_created' => $artist->wasRecentlyCreated
@@ -136,7 +136,14 @@ class SongController extends Controller
 
             $infoPath = storage_path('app/' . $path);
 
-            $info[$i] = $parser->getTrackInfo($infoPath);
+            try {
+                $parser->loadTrackInfo($infoPath);
+                $info[$i] = $parser->getTrackInfo();
+            } catch (Exception $e) {
+                return response()->json([
+                    'message' => 'Cannot process the file'
+                ]);
+            }
         }
 
         return response()->json([

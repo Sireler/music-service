@@ -2,13 +2,20 @@
 
 namespace App\Helpers\MetadataParsers;
 
+use Exception;
 use getID3;
 use getid3_lib;
 
 class ID3Parser
 {
+    /** @var getID3  */
     private $getID3;
-    public $info;
+
+    /** @var array */
+    private $metadata;
+
+    /** @var array */
+    private $trackInfo;
 
     public function __construct(getID3 $getID3)
     {
@@ -16,21 +23,20 @@ class ID3Parser
     }
 
     /**
-     * Extract information from a file
+     * Load the track file
      *
      * @param $path
-     * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getTrackInfo($path)
+    public function loadTrackInfo($path)
     {
         if (!file_exists($path)) {
-            throw new \Exception('File not found');
+            throw new Exception('File not found');
         }
 
         $info = $this->getID3->analyze($path);
         getid3_lib::CopyTagsToComments($info);
-        $this->info = $info;
+        $this->metadata = $info;
 
         $filename = $info['filename'] ?? '';
         $title = $info['comments']['title'][0] ?? '';
@@ -52,19 +58,30 @@ class ID3Parser
             $trackInfo['image'] = $picture;
         }
 
-        return $trackInfo;
+        $this->trackInfo = $trackInfo;
     }
 
     /**
-     * Mime type of a picture
+     * Extract information from the file
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function getTrackInfo()
+    {
+        return $this->trackInfo;
+    }
+
+    /**
+     * Get a picture mime type
      *
      * @return bool|string
      */
     public function getPictureMime()
     {
         if ($this->pictureExists()) {
-            $mime = $mime = $this->info['id3v2']['APIC'][0]['image_mime'] ??
-                $this->info['id3v2']['PIC']['0']['mime'] ?? 'image/png';
+            $mime = $mime = $this->metadata['id3v2']['APIC'][0]['image_mime'] ??
+                $this->metadata['id3v2']['PIC']['0']['mime'] ?? 'image/png';
 
             return $mime;
         }
@@ -91,20 +108,33 @@ class ID3Parser
     }
 
     /**
-     * Get a picture of a track
+     * Get a picture of the track
      *
      * @return string
      */
     public function getPicture()
     {
         if ($this->pictureExists()) {
-            $picture = $this->info['id3v2']['APIC'][0]['data'] ??
-                $picture = $this->info['id3v2']['PIC'][0]['data'] ??  '';
+            $picture = $this->metadata['id3v2']['APIC'][0]['data'] ??
+                $picture = $this->metadata['id3v2']['PIC'][0]['data'] ??  '';
 
             return $picture;
         }
 
         return false;
+    }
+
+    /**
+     * Cover info
+     *
+     * @return array
+     */
+    public function getCoverInfo()
+    {
+        return [
+            'picture' => $this->getPicture(),
+            'mime' => $this->getPictureMime()
+        ];
     }
 
     /**
@@ -114,8 +144,8 @@ class ID3Parser
      */
     private function pictureExists()
     {
-        $picture = $this->info['id3v2']['APIC'][0]['data'] ??
-            $this->info['id3v2']['PIC'][0]['data'] ?? '';
+        $picture = $this->metadata['id3v2']['APIC'][0]['data'] ??
+            $this->metadata['id3v2']['PIC'][0]['data'] ?? '';
 
         return !empty($picture);
     }
