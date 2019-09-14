@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Artist;
-use App\Helpers\ID3Parser;
+use App\Helpers\MetadataParsers\ID3Parser;
 use App\Helpers\ImageCreator;
 use App\Http\Controllers\Controller;
 use App\Song;

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Helpers\ID3Parser;
+use App\Helpers\MetadataParsers\ID3Parser;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

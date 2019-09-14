@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\MetadataParsers;
 
 use getID3;
 use getid3_lib;
