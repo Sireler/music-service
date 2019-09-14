@@ -8,7 +8,7 @@ use getid3_lib;
 class ID3Parser
 {
     private $getID3;
-    private $info;
+    public $info;
 
     public function __construct(getID3 $getID3)
     {
@@ -63,7 +63,8 @@ class ID3Parser
     public function getPictureMime()
     {
         if ($this->pictureExists()) {
-            $mime = $mime = $this->info['id3v2']['APIC'][0]['image_mime'] ?? 'image/png';
+            $mime = $mime = $this->info['id3v2']['APIC'][0]['image_mime'] ??
+                $this->info['id3v2']['PIC']['0']['mime'] ?? 'image/png';
 
             return $mime;
         }
@@ -97,7 +98,8 @@ class ID3Parser
     public function getPicture()
     {
         if ($this->pictureExists()) {
-            $picture = $this->info['id3v2']['APIC'][0]['data'] ?? '';
+            $picture = $this->info['id3v2']['APIC'][0]['data'] ??
+                $picture = $this->info['id3v2']['PIC'][0]['data'] ??  '';
 
             return $picture;
         }
@@ -112,7 +114,8 @@ class ID3Parser
      */
     private function pictureExists()
     {
-        $picture = $this->info['id3v2']['APIC'][0]['data'] ?? '';
+        $picture = $this->info['id3v2']['APIC'][0]['data'] ??
+            $this->info['id3v2']['PIC'][0]['data'] ?? '';
 
         return !empty($picture);
     }
