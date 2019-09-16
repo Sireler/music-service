@@ -31,4 +31,11 @@ interface ParserInterface
      * @return mixed
      */
     public function getLength();
+
+    /**
+     * Get the filename
+     *
+     * @return mixed
+     */
+    public function getFilename();
 }

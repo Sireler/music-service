@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Artist;
 use App\Helpers\MetadataParsers\ID3Parser;
 use App\Helpers\ImageCreator;
+use App\Helpers\MetadataParsers\TagsParser;
 use App\Http\Controllers\Controller;
 use App\Song;
 use Exception;
+use getID3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -137,8 +139,16 @@ class SongController extends Controller
             $infoPath = storage_path('app/' . $path);
 
             try {
-                $parser->loadTrackInfo($infoPath);
-                $info[$i] = $parser->getTrackInfo();
+                $tagsParser = new TagsParser($infoPath, app()->make(getID3::class));
+
+                $info[$i] = [
+                    'filename' => $tagsParser->getFilename(),
+                    'title' => $tagsParser->getTitle(),
+                    'artist' => $tagsParser->getArtist(),
+                    'album' => $tagsParser->getAlbum(),
+                    'length' => $tagsParser->getLength(),
+                    'image' => $tagsParser->base64Cover()
+                ];
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Cannot process the file'
