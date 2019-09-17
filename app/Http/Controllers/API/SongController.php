@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Artist;
-use App\Helpers\ID3Parser;
 use App\Helpers\ImageCreator;
+use App\Helpers\MetadataParsers\TagsParser;
 use App\Http\Controllers\Controller;
 use App\Song;
+use Exception;
+use getID3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -31,11 +33,10 @@ class SongController extends Controller
      * Store a new song
      *
      * @param Request $request
-     * @param ID3Parser $parser
      * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function create(Request $request, ID3Parser $parser): JsonResponse
+    public function create(Request $request): JsonResponse
     {
         $this->validate($request, [
             'tracks.*.title' => 'required|max:30',
@@ -51,39 +52,37 @@ class SongController extends Controller
         ]);
 
         foreach ($request->tracks as $i => $track) {
+            // Process the file
+            try {
+                $tagsParser = new TagsParser(storage_path('app/music/' . $track['filename']), app()->make(getID3::class));
 
-            if (!Storage::disk('local')->exists('music/' . $track['filename'])) {
+                $coverPath = 'music_images/' . Str::random(16);
+
+                // Store images
+                $imageCreator = new ImageCreator();
+                $cover = $imageCreator->store($coverPath, $tagsParser->getCover(), $tagsParser->getCoverMime());
+                $cover = asset('storage/' . $cover);
+
+                $album->cover = $cover;
+                $album->save();
+
+                $id = Str::random(32);
+                $album->songs()->create([
+                    'id' => $id,
+                    'title' => $track['title'],
+                    'length' => $track['length'],
+                    'path' => 'music/' . $track['filename'],
+                    'cover' => $cover,
+                ]);
+            } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Track not found'
+                    'message' => 'Cannot process the file'
                 ]);
             }
-
-            // Get info
-            $parser->getTrackInfo(storage_path('app/music/' . $track['filename']));
-            $picture = $parser->getPicture();
-            $mime = $parser->getPictureMime();
-            $picturePath = 'music_images/' . Str::random(16);
-
-            // Store images
-            $imageCreator = new ImageCreator();
-            $cover = $imageCreator->store($picturePath, $picture, $mime);
-            $cover = asset('storage/' . $cover);
-
-            $album->cover = $cover;
-            $album->save();
-
-            $id = Str::random(32);
-            $song = $album->songs()->create([
-                'id' => $id,
-                'title' => $track['title'],
-                'length' => $track['length'],
-                'path' => 'music/' . $track['filename'],
-                'cover' => $cover,
-            ]);
         }
 
         return response()->json([
-            'message' => 'Song created',
+            'message' => 'Created',
             'artist' => [
                 'id' => $artist->id,
                 'was_created' => $artist->wasRecentlyCreated
@@ -114,14 +113,13 @@ class SongController extends Controller
     }
 
     /**
-     * Upload tracks and return the ID3 data
+     * Upload tracks and return metadata from the tracks
      *
      * @param Request $request
-     * @param ID3Parser $parser
      * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function upload(Request $request, ID3Parser $parser): JsonResponse
+    public function upload(Request $request): JsonResponse
     {
         $this->validate($request, [
             'track.*' => 'required|mimetypes:audio/mpeg'
@@ -136,7 +134,22 @@ class SongController extends Controller
 
             $infoPath = storage_path('app/' . $path);
 
-            $info[$i] = $parser->getTrackInfo($infoPath);
+            try {
+                $tagsParser = new TagsParser($infoPath, app()->make(getID3::class));
+
+                $info[$i] = [
+                    'filename' => $tagsParser->getFilename(),
+                    'title' => $tagsParser->getTitle(),
+                    'artist' => $tagsParser->getArtist(),
+                    'album' => $tagsParser->getAlbum(),
+                    'length' => $tagsParser->getLength(),
+                    'image' => $tagsParser->base64Cover()
+                ];
+            } catch (Exception $e) {
+                return response()->json([
+                    'message' => 'Cannot process the file'
+                ]);
+            }
         }
 
         return response()->json([
