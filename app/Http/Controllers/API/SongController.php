@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Artist;
-use App\Helpers\MetadataParsers\ID3Parser;
 use App\Helpers\ImageCreator;
 use App\Helpers\MetadataParsers\TagsParser;
 use App\Http\Controllers\Controller;
@@ -34,11 +33,10 @@ class SongController extends Controller
      * Store a new song
      *
      * @param Request $request
-     * @param ID3Parser $parser
      * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function create(Request $request, ID3Parser $parser): JsonResponse
+    public function create(Request $request): JsonResponse
     {
         $this->validate($request, [
             'tracks.*.title' => 'required|max:30',
@@ -56,21 +54,20 @@ class SongController extends Controller
         foreach ($request->tracks as $i => $track) {
             // Process the file
             try {
-                $parser->loadTrackInfo(storage_path('app/music/' . $track['filename']));
+                $tagsParser = new TagsParser(storage_path('app/music/' . $track['filename']), app()->make(getID3::class));
 
-                $coverInfo = $parser->getCoverInfo();
-                $picturePath = 'music_images/' . Str::random(16);
+                $coverPath = 'music_images/' . Str::random(16);
 
                 // Store images
                 $imageCreator = new ImageCreator();
-                $cover = $imageCreator->store($picturePath, $coverInfo['picture'], $coverInfo['mime']);
+                $cover = $imageCreator->store($coverPath, $tagsParser->getCover(), $tagsParser->getCoverMime());
                 $cover = asset('storage/' . $cover);
 
                 $album->cover = $cover;
                 $album->save();
 
                 $id = Str::random(32);
-                $song = $album->songs()->create([
+                $album->songs()->create([
                     'id' => $id,
                     'title' => $track['title'],
                     'length' => $track['length'],
@@ -116,14 +113,13 @@ class SongController extends Controller
     }
 
     /**
-     * Upload tracks and return the ID3 data
+     * Upload tracks and return metadata from the tracks
      *
      * @param Request $request
-     * @param ID3Parser $parser
      * @return JsonResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function upload(Request $request, ID3Parser $parser): JsonResponse
+    public function upload(Request $request): JsonResponse
     {
         $this->validate($request, [
             'track.*' => 'required|mimetypes:audio/mpeg'
