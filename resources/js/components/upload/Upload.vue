@@ -50,6 +50,13 @@
             handleUploadEnd(data) {
                 this.uploaded = false;
                 this.artist = data.artist;
+
+                if (!this.artist.was_created) {
+                    this.$router.push({
+                        name: 'home.artists.artist',
+                        params: { id: this.artist.id }
+                    });
+                }
             },
             submitFile() {
                 let formData = new FormData();
