@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Album;
 use App\Artist;
-use App\Helpers\ImageCreator;
 use App\Http\Controllers\Controller;
-use App\Song;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ArtistController extends Controller
 {
@@ -55,17 +50,29 @@ class ArtistController extends Controller
         ]);
     }
 
-    public function updateAvatar(Request $request, int $artistId)
+    /**
+     * Update the specified artist
+     *
+     * @param Request $request
+     * @param int $artistId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, int $artistId)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg'
+            'image' => 'image|mimes:jpeg,png,jpg'
         ]);
 
-        $path = $request->image->store('artist_avatars', 'public');
+        $data = $request->all();
 
         $artist = Artist::findOrFail($artistId);
-        $artist->image = '/storage/' . $path;
-        $artist->save();
+
+        if ($request->has('image')) {
+            $imagePath = $request->image->store('artist_avatars', 'public');
+            $data['image'] = '/storage/' . $imagePath;
+        }
+
+        $artist->update($data);
 
         return response()->json([
             'status' => 'Updated'

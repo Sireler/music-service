@@ -41,7 +41,7 @@ const artists = {
         },
         updateAvatar(context, data) {
             return new Promise((resolve, reject) => {
-                axios.post('/artists/' + data.id + '/update/avatar', data.file, {
+                axios.post('/artists/' + data.id + '/update', data.file, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
