@@ -1,6 +1,10 @@
 <template>
     <div class="container">
         <div class="upload-container my-3">
+
+            <AlertDanger :title="'Files cannot be uploaded'"
+                         :error="error"
+                         @closed="error = ''"></AlertDanger>
             <div class="card">
 
                 <UploadProgress></UploadProgress>
@@ -25,31 +29,47 @@
     import Uploading from './Uploading';
     import AboutArtist from "./AboutArtist";
 
+    import AlertDanger from "../helpers/AlertDanger";
+
+    import { mapMutations } from 'vuex';
+
     export default {
         name: "Upload",
         components: {
             UploadProgress,
             Uploading,
-            AboutArtist
+            AboutArtist,
+            AlertDanger
         },
         data() {
             return {
                 files: null,
                 uploaded: false,
-                artist: {}
+                artist: {},
+                error: '',
             }
         },
         methods: {
+            ...mapMutations('songs', [
+                'setProgress'
+            ]),
             handleUpload() {
                 this.files = this.$refs.file.files;
 
-                if (this.files) {
+                if (this.files.length !== 0) {
                     this.submitFile();
                 }
             },
             handleUploadEnd(data) {
                 this.uploaded = false;
                 this.artist = data.artist;
+
+                if (!this.artist.was_created) {
+                    this.$router.push({
+                        name: 'home.artists.artist',
+                        params: { id: this.artist.id }
+                    });
+                }
             },
             submitFile() {
                 let formData = new FormData();
@@ -61,9 +81,13 @@
                 this.$store.dispatch('songs/upload', formData)
                     .then(response => {
                         this.uploaded = true;
+                    })
+                    .catch(error => {
+                        this.setProgress(0);
+                        this.error = error.response.data.message;
                     });
             }
-        },
+        }
     }
 </script>
 
