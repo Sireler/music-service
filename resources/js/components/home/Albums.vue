@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-4"
                      v-for="album in albums"
                      v-bind:key="album.id">
-                    <ArtistAlbum :album="album" class="mb-4"></ArtistAlbum>
+                    <AlbumCard :album="album" class="mb-4"></AlbumCard>
                 </div>
             </div>
 
@@ -27,15 +27,17 @@
 </template>
 
 <script>
-    import ArtistAlbum from "../songs/ArtistAlbum";
     import PageNavigation from "../navigation/PageNavigation";
+    import AlbumCard from "./albums/AlbumCard";
 
-    import { mapState, mapActions } from 'vuex';
+    import { mapState } from 'vuex';
+
+    import { store } from '../../store/store';
 
     export default {
         name: "Albums",
         components: {
-            ArtistAlbum,
+            AlbumCard,
             PageNavigation
         },
         data() {
@@ -50,9 +52,6 @@
             }),
         },
         methods: {
-            ...mapActions('albums', [
-                'getAlbums',
-            ]),
             nextPage() {
                 this.currentPage++;
 
@@ -68,13 +67,11 @@
                 });
             }
         },
-        watch: {
-            currentPage(page) {
-                this.getAlbums(page);
-            }
+        beforeRouteEnter(to, from, next) {
+            store.dispatch('albums/getAlbums', to.query.page).then(res => next());
         },
-        mounted() {
-            this.getAlbums(this.currentPage);
+        beforeRouteUpdate(to, from, next) {
+            store.dispatch('albums/getAlbums', to.query.page).then(res => next());
         }
     }
 </script>
