@@ -24,33 +24,29 @@
 <script>
     import Track from '../songs/Track';
 
+    import { mapState } from 'vuex';
+    import { store } from '../../store/store';
+
     export default {
         name: "Releases",
         components: {
             Track
         },
-        data() {
-            return {
-                songs: []
-            }
+        computed: {
+            ...mapState({
+                songs: state => state.songs.releases,
+            })
         },
         methods: {
-            getAllSongs() {
-                this.$store.dispatch('songs/getAllSongs')
-                    .then(response => {
-                        this.songs = response.data.songs;
-                    })
-                    .catch(error => {
-
-                    });
-            },
-
             setSong(id) {
                 this.$store.commit('player/setTrackUrl', id);
             }
         },
-        mounted() {
-            this.getAllSongs();
+        beforeRouteEnter(to, from, next) {
+            store.dispatch('songs/getAllSongs').then(res => next());
+        },
+        beforeRouteUpdate(to, from, next) {
+            store.dispatch('songs/getAllSongs').then(res => next());
         }
     }
 </script>
