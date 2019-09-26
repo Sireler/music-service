@@ -25,7 +25,8 @@
     import ArtistCard from "./ArtistCard";
     import PageNavigation from "../../navigation/PageNavigation";
 
-    import { mapState, mapActions } from 'vuex';
+    import { mapState } from 'vuex';
+    import { store } from '../../../store/store';
 
     export default {
         name: "Artists",
@@ -45,9 +46,6 @@
             })
         },
         methods: {
-            ...mapActions('artists', [
-                'getAll'
-            ]),
             nextPage() {
                 this.currentPage++;
 
@@ -63,13 +61,11 @@
                 });
             }
         },
-        watch: {
-            currentPage(page) {
-                this.getAll(page);
-            }
+        beforeRouteEnter(to, from, next) {
+            store.dispatch('artists/getAll', to.query.page).then(res => next());
         },
-        mounted() {
-            this.getAll(this.currentPage);
+        beforeRouteUpdate(to, from, next) {
+            store.dispatch('artists/getAll', to.query.page).then(res => next());
         }
     }
 </script>

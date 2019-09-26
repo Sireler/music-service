@@ -6,7 +6,8 @@ const songs = {
     state: {
         songs: [],
         uploadProgress: 0,
-        uploadInfo: {}
+        uploadInfo: {},
+        releases: [],
     },
     mutations: {
         setProgress(state, progress) {
@@ -22,19 +23,17 @@ const songs = {
             for (let i = 0; i < state.uploadInfo.length; i++) {
                 state.uploadInfo[i][info.key] = info.value;
             }
+        },
+        setReleases(state, tracks) {
+            state.releases = tracks;
         }
     },
     actions: {
-        getAllSongs(context, data) {
-            return new Promise((resolve, reject) => {
-                axios.get('/songs')
-                    .then(response => {
-                        resolve(response);
-                    })
-                    .catch(error => {
-                        reject(error);
-                    });
-            });
+        getAllSongs(context) {
+            axios.get('/songs')
+                .then(response => {
+                    context.commit('setReleases', response.data.songs);
+                });
         },
 
         upload(context, data) {
